@@ -88,7 +88,8 @@ def main():
         if definition.get('available',True) and type(definition.get('image')) is int:images[definition['image']]=definition
     for definition in list(CARDS.values())+list(ACHIEVEMENTS.values()):
         number=definition.get('image')
-        if not definition.get('available',True) or type(number)is not int or guild_card_layouts.source_for_image(number) in guild_card_layouts.LAYOUTS:continue
+        if not definition.get('available',True) or type(number)is not int:continue
+        if number not in (53,65,77,83) and guild_card_layouts.source_for_image(number) in guild_card_layouts.LAYOUTS:continue
         full=SERVER/'replay_web/cardfull'/(str(number)+'.jpg')
         if full.is_file():continue
         im=raster(images[number]['source'])

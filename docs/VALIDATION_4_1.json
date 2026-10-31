@@ -18,7 +18,7 @@
     "solo card mode switching",
     "exploration payment and deep map",
     "client/server ZIP SHA-256 manifests",
-    "fresh standalone server contains all replay atlases and raster fallbacks; nine HTTP assets return 200"
+    "fresh standalone server contains all replay atlases and mode-specific raster fallbacks; eleven HTTP assets return 200"
   ],
   "artifacts": [
     {
@@ -28,10 +28,10 @@
     },
     {
       "name": "guild-server-4.1.0.zip",
-      "size_bytes": 67742833,
-      "sha256": "0bdf34c6163ca7e448c4771155a2ac124d6a1474605f9355a51c08d399b2485e"
+      "size_bytes": 68251055,
+      "sha256": "67bdcb9356c63f8e7c7a25a3b1d7b03cc0b2bb566160240203e304af425c5544"
     }
   ],
   "standalone_replay_components": 516,
-  "standalone_http_checks": 9
+  "standalone_http_checks": 11
 }
