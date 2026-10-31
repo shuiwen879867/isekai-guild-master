@@ -1,16 +1,16 @@
 {
-  "version": "3.2.0",
-  "revision": "20261015-3.2.0-fireworks-replacement",
+  "version": "4.1.0",
+  "revision": "20261031-4.1.0-refactor-update",
   "artifacts": [
     {
-      "name": "guild-server.zip",
-      "size_bytes": 55300550,
-      "sha256": "91ecc48dbf7c8fcd3f8268102a9f80582865172877710f49cba73c7072420651"
+      "name": "GuildMaster-Windows-4.1.0.zip",
+      "size_bytes": 233960829,
+      "sha256": "c302125177fcbbd0cdd09fde669486ad13c99171e7a7f7abd39b9191dfdfd0de"
     },
     {
-      "name": "GuildMaster-Godot-Windows-20261015-A077Fix.zip",
-      "size_bytes": 140971784,
-      "sha256": "db9eb32d861edb0ef49526be24c96fe1f08d656be10b8ffb2a852eacb8daec13"
+      "name": "guild-server-4.1.0.zip",
+      "size_bytes": 23368115,
+      "sha256": "c18adc8c3d21a99d574ce8ff781447ded2e302a6a69607b0326f1a7da1021818"
     }
   ]
 }

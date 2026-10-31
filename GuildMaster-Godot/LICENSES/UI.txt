@@ -1,0 +1,3 @@
+界面参考并复用用户另一项目“建筑经理”的原创漫画纸面 SVG。
+资源图标来自本游戏原卡字形图集，按原像素裁切。
+标题字体 ZCOOL KuaiLe，SIL OFL 1.1，许可见 ZCOOLKuaiLe-OFL.txt。

@@ -1,0 +1,102 @@
+{
+  "gold": {
+    "source": "tts_42_1",
+    "box": [
+      51,
+      193,
+      104,
+      248
+    ],
+    "method": "native glyph atlas crop"
+  },
+  "strength": {
+    "source": "tts_42_1",
+    "box": [
+      214,
+      192,
+      266,
+      246
+    ],
+    "method": "native glyph atlas crop"
+  },
+  "event": {
+    "source": "tts_42_1",
+    "box": [
+      294,
+      190,
+      340,
+      247
+    ],
+    "method": "native glyph atlas crop"
+  },
+  "pot": {
+    "source": "images/new_art/847207.webp",
+    "box": [
+      269,
+      373,
+      340,
+      446
+    ],
+    "method": "native glyph atlas crop"
+  },
+  "gold_pro": {
+    "source": "images/new_art/847207.webp",
+    "box": [
+      100,
+      375,
+      165,
+      440
+    ],
+    "method": "native glyph atlas crop"
+  },
+  "str_pro": {
+    "source": "tts_42_4",
+    "box": [
+      52,
+      192,
+      109,
+      249
+    ],
+    "method": "native glyph atlas crop"
+  },
+  "pot_pro": {
+    "source": "images/new_art/845910.webp",
+    "box": [
+      98,
+      373,
+      172,
+      448
+    ],
+    "method": "native glyph atlas crop"
+  },
+  "territory": {
+    "source": "images/new_art/847207.webp",
+    "box": [
+      85,
+      126,
+      113,
+      157
+    ],
+    "method": "native glyph atlas crop"
+  },
+  "point": {
+    "source": "images/new_art/845601.webp",
+    "box": [
+      165,
+      270,
+      314,
+      417
+    ],
+    "method": "native glyph atlas crop"
+  },
+  "affection": {
+    "source": "images/new_art/843411.webp",
+    "box": [
+      1353,
+      218,
+      1415,
+      280
+    ],
+    "method": "original red ink mask"
+  }
+}

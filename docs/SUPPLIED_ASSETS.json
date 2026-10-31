@@ -1,0 +1,852 @@
+[
+  {
+    "id": "sif_revised_white_1",
+    "source": "c4bc72df877143ac5fd87582594bd45f.png",
+    "source_sha256": "8d44cc77de634f666f6a967353dfa4fb37915d365b68012fcc33c274cccfd240",
+    "corners": [
+      [
+        304,
+        59
+      ],
+      [
+        610,
+        68
+      ],
+      [
+        611,
+        274
+      ],
+      [
+        299,
+        265
+      ]
+    ],
+    "output": "supplied/sif_revised_white_1.webp",
+    "sha256": "e178936b9f372a7bfbf1d06d4d9bca3220ab46f59a2c3a68b452672dbcf4edc3"
+  },
+  {
+    "id": "sif_revised_white_2",
+    "source": "c4bc72df877143ac5fd87582594bd45f.png",
+    "source_sha256": "8d44cc77de634f666f6a967353dfa4fb37915d365b68012fcc33c274cccfd240",
+    "corners": [
+      [
+        0,
+        28
+      ],
+      [
+        296,
+        35
+      ],
+      [
+        292,
+        229
+      ],
+      [
+        0,
+        226
+      ]
+    ],
+    "output": "supplied/sif_revised_white_2.webp",
+    "sha256": "da5ee0b34e333bd2b343ac4c465748b182c2285fe68cba9805054d3fa5a0a496"
+  },
+  {
+    "id": "sif_revised_white_3",
+    "source": "c4bc72df877143ac5fd87582594bd45f.png",
+    "source_sha256": "8d44cc77de634f666f6a967353dfa4fb37915d365b68012fcc33c274cccfd240",
+    "corners": [
+      [
+        332,
+        278
+      ],
+      [
+        627,
+        284
+      ],
+      [
+        627,
+        494
+      ],
+      [
+        330,
+        484
+      ]
+    ],
+    "output": "supplied/sif_revised_white_3.webp",
+    "sha256": "16cce0effd1a9d965ce2849a29460d2a0846ed8f83eef1fe1c1ae1f0aaa71806"
+  },
+  {
+    "id": "sif_revised_black_1",
+    "source": "324ceb04e247ca0463b80979a690d2e2.png",
+    "source_sha256": "150d23d6dc1d96e6f3afcea451823fea00f6b5eaf15f9dda79329960a477127e",
+    "corners": [
+      [
+        399,
+        319
+      ],
+      [
+        774,
+        325
+      ],
+      [
+        774,
+        596
+      ],
+      [
+        391,
+        585
+      ]
+    ],
+    "output": "supplied/sif_revised_black_1.webp",
+    "sha256": "9d8a5415b5b286131d8050994f9f5cedc5a24d0f5dff9cb2757fa4a14580f38c"
+  },
+  {
+    "id": "sif_revised_black_2",
+    "source": "324ceb04e247ca0463b80979a690d2e2.png",
+    "source_sha256": "150d23d6dc1d96e6f3afcea451823fea00f6b5eaf15f9dda79329960a477127e",
+    "corners": [
+      [
+        0,
+        29
+      ],
+      [
+        381,
+        40
+      ],
+      [
+        381,
+        290
+      ],
+      [
+        0,
+        279
+      ]
+    ],
+    "output": "supplied/sif_revised_black_2.webp",
+    "sha256": "fb4cd9e1fb5c0d1f78fa9b21a5c19b608133bb94f492cc94c5b0f2f1184fd4b4"
+  },
+  {
+    "id": "sif_revised_black_3",
+    "source": "324ceb04e247ca0463b80979a690d2e2.png",
+    "source_sha256": "150d23d6dc1d96e6f3afcea451823fea00f6b5eaf15f9dda79329960a477127e",
+    "corners": [
+      [
+        397,
+        52
+      ],
+      [
+        770,
+        55
+      ],
+      [
+        771,
+        315
+      ],
+      [
+        386,
+        305
+      ]
+    ],
+    "output": "supplied/sif_revised_black_3.webp",
+    "sha256": "1b75f0e3870e8b72672a6b1dff6c87194dfb8257d76fcb23f22f182e36417e52"
+  },
+  {
+    "id": "frida_revised_white_1",
+    "source": "31a64142845dac90b7a3838091872baf.png",
+    "source_sha256": "5565850c74f83286a34dcc836c7b4d959a0a4ecf2f26a86722e3c9a555cc5d7c",
+    "corners": [
+      [
+        114,
+        230
+      ],
+      [
+        371,
+        240
+      ],
+      [
+        386,
+        421
+      ],
+      [
+        96,
+        412
+      ]
+    ],
+    "output": "supplied/frida_revised_white_1.webp",
+    "sha256": "c66f0d893cdf7d590550a30cfd72a6476e187428d81400366b65c39c30f9805c"
+  },
+  {
+    "id": "frida_revised_white_2",
+    "source": "31a64142845dac90b7a3838091872baf.png",
+    "source_sha256": "5565850c74f83286a34dcc836c7b4d959a0a4ecf2f26a86722e3c9a555cc5d7c",
+    "corners": [
+      [
+        119,
+        19
+      ],
+      [
+        375,
+        31
+      ],
+      [
+        383,
+        196
+      ],
+      [
+        105,
+        194
+      ]
+    ],
+    "output": "supplied/frida_revised_white_2.webp",
+    "sha256": "8b7605c79ffe548e15e3e01b3912bd08161fa2f7d62dc5acb7a94127d52e80a0"
+  },
+  {
+    "id": "frida_revised_white_3",
+    "source": "31a64142845dac90b7a3838091872baf.png",
+    "source_sha256": "5565850c74f83286a34dcc836c7b4d959a0a4ecf2f26a86722e3c9a555cc5d7c",
+    "corners": [
+      [
+        40,
+        478
+      ],
+      [
+        320,
+        485
+      ],
+      [
+        326,
+        687
+      ],
+      [
+        17,
+        677
+      ]
+    ],
+    "output": "supplied/frida_revised_white_3.webp",
+    "sha256": "44db73c157d2ec93f9126ac15cbca95ee6a14039355a08340b62ff95fc507cd1"
+  },
+  {
+    "id": "frida_revised_black_1",
+    "source": "1721c4ee5e2789b7973357a2d6d9c651.png",
+    "source_sha256": "372d02db77a2e07a470b23d17387d5a23db4c95eb0c060e3d28b6b33305807be",
+    "corners": [
+      [
+        38,
+        497
+      ],
+      [
+        331,
+        504
+      ],
+      [
+        330,
+        725
+      ],
+      [
+        30,
+        720
+      ]
+    ],
+    "output": "supplied/frida_revised_black_1.webp",
+    "sha256": "b1edf840e976b48076f502f4ad3a122f5ff27cb0c5e32cf15209e1b286d82a63"
+  },
+  {
+    "id": "frida_revised_black_2",
+    "source": "1721c4ee5e2789b7973357a2d6d9c651.png",
+    "source_sha256": "372d02db77a2e07a470b23d17387d5a23db4c95eb0c060e3d28b6b33305807be",
+    "corners": [
+      [
+        128,
+        56
+      ],
+      [
+        397,
+        62
+      ],
+      [
+        405,
+        225
+      ],
+      [
+        112,
+        235
+      ]
+    ],
+    "output": "supplied/frida_revised_black_2.webp",
+    "sha256": "71df9b1b4af102ae402d2f1f1ad5af803cc13c8d48708b8c3406632309db6154"
+  },
+  {
+    "id": "frida_revised_black_3",
+    "source": "7801a68e57a740e97b3e8e0a1c1efd62.png",
+    "source_sha256": "5311b4558c513452e7b7d7129f48bfd4022af2178d5c7074a089447a8596f272",
+    "corners": [
+      [
+        235,
+        19
+      ],
+      [
+        551,
+        14
+      ],
+      [
+        555,
+        228
+      ],
+      [
+        216,
+        230
+      ]
+    ],
+    "output": "supplied/frida_revised_black_3.webp",
+    "sha256": "53a0ee6c36f3ed7a79b91139a8a93c9cf54ccd2a47827ce8b833a0afa76ce0a1"
+  },
+  {
+    "id": "bell_revised_white_1",
+    "source": "e700ceed44859d14f1d9d7c5882b0f28.png",
+    "source_sha256": "687b261e0a2e30c844f3791c1df0757a9d052f7b596ce129db68b63cf2c8ac31",
+    "corners": [
+      [
+        349,
+        233
+      ],
+      [
+        621,
+        234
+      ],
+      [
+        621,
+        434
+      ],
+      [
+        335,
+        427
+      ]
+    ],
+    "output": "supplied/bell_revised_white_1.webp",
+    "sha256": "49cb9ca3455da68678bea46c8a258b6269b3f438001a1fba01c7ca59931f1913"
+  },
+  {
+    "id": "bell_revised_white_2",
+    "source": "e700ceed44859d14f1d9d7c5882b0f28.png",
+    "source_sha256": "687b261e0a2e30c844f3791c1df0757a9d052f7b596ce129db68b63cf2c8ac31",
+    "corners": [
+      [
+        331,
+        450
+      ],
+      [
+        616,
+        462
+      ],
+      [
+        616,
+        670
+      ],
+      [
+        323,
+        660
+      ]
+    ],
+    "output": "supplied/bell_revised_white_2.webp",
+    "sha256": "16da0e791e3fac7f04dc018076f767f33c68db5de5f69ee380574f5c070734eb"
+  },
+  {
+    "id": "bell_revised_white_3",
+    "source": "e700ceed44859d14f1d9d7c5882b0f28.png",
+    "source_sha256": "687b261e0a2e30c844f3791c1df0757a9d052f7b596ce129db68b63cf2c8ac31",
+    "corners": [
+      [
+        367,
+        47
+      ],
+      [
+        628,
+        48
+      ],
+      [
+        632,
+        222
+      ],
+      [
+        352,
+        219
+      ]
+    ],
+    "output": "supplied/bell_revised_white_3.webp",
+    "sha256": "bb84b4582a455a855a36be1251aa79cf8c340b610539eea0371d6ee00670f0de"
+  },
+  {
+    "id": "bell_revised_black_1",
+    "source": "361c9b97f38bbabb5f720606c1bc08bf.png",
+    "source_sha256": "1f46e5fcc3821ed4fb261b4b453458a211f59b0f51bccd6c86fd746a8a53ee6c",
+    "corners": [
+      [
+        373,
+        42
+      ],
+      [
+        639,
+        41
+      ],
+      [
+        638,
+        217
+      ],
+      [
+        368,
+        211
+      ]
+    ],
+    "output": "supplied/bell_revised_black_1.webp",
+    "sha256": "53149d363fb6e2e8e72a28bb19acee297f50a9216d87e4682a3ba8d8c75b419e"
+  },
+  {
+    "id": "bell_revised_black_2",
+    "source": "361c9b97f38bbabb5f720606c1bc08bf.png",
+    "source_sha256": "1f46e5fcc3821ed4fb261b4b453458a211f59b0f51bccd6c86fd746a8a53ee6c",
+    "corners": [
+      [
+        342,
+        428
+      ],
+      [
+        622,
+        435
+      ],
+      [
+        628,
+        638
+      ],
+      [
+        338,
+        629
+      ]
+    ],
+    "output": "supplied/bell_revised_black_2.webp",
+    "sha256": "887884b02ccb648824b4ed4346f0a0b3b35e296660a8a4087859d9fa8ec531cd"
+  },
+  {
+    "id": "bell_revised_black_3",
+    "source": "361c9b97f38bbabb5f720606c1bc08bf.png",
+    "source_sha256": "1f46e5fcc3821ed4fb261b4b453458a211f59b0f51bccd6c86fd746a8a53ee6c",
+    "corners": [
+      [
+        345,
+        227
+      ],
+      [
+        627,
+        230
+      ],
+      [
+        625,
+        418
+      ],
+      [
+        331,
+        410
+      ]
+    ],
+    "output": "supplied/bell_revised_black_3.webp",
+    "sha256": "579ac630d14e8dfdcf6f67efacd8c894d2e7c3d957d28e94b8ddd10f82bc4690"
+  },
+  {
+    "id": "marta_revised_white_1",
+    "source": "e700ceed44859d14f1d9d7c5882b0f28.png",
+    "source_sha256": "687b261e0a2e30c844f3791c1df0757a9d052f7b596ce129db68b63cf2c8ac31",
+    "corners": [
+      [
+        41,
+        208
+      ],
+      [
+        309,
+        210
+      ],
+      [
+        310,
+        406
+      ],
+      [
+        28,
+        399
+      ]
+    ],
+    "output": "supplied/marta_revised_white_1.webp",
+    "sha256": "8a67148fe47e4df70186ff5395ec9a20b7bc559ca52c3fd15f26ef04b660e3bd"
+  },
+  {
+    "id": "marta_revised_white_2",
+    "source": "e700ceed44859d14f1d9d7c5882b0f28.png",
+    "source_sha256": "687b261e0a2e30c844f3791c1df0757a9d052f7b596ce129db68b63cf2c8ac31",
+    "corners": [
+      [
+        12,
+        442
+      ],
+      [
+        325,
+        448
+      ],
+      [
+        323,
+        675
+      ],
+      [
+        5,
+        667
+      ]
+    ],
+    "output": "supplied/marta_revised_white_2.webp",
+    "sha256": "b0ffdc0d66b414a6579315c383434c1d3af31b3593deb49add8e812a03d445af"
+  },
+  {
+    "id": "marta_revised_white_3",
+    "source": "e700ceed44859d14f1d9d7c5882b0f28.png",
+    "source_sha256": "687b261e0a2e30c844f3791c1df0757a9d052f7b596ce129db68b63cf2c8ac31",
+    "corners": [
+      [
+        42,
+        20
+      ],
+      [
+        304,
+        21
+      ],
+      [
+        306,
+        196
+      ],
+      [
+        28,
+        193
+      ]
+    ],
+    "output": "supplied/marta_revised_white_3.webp",
+    "sha256": "e1ea9de2ca21a8dcc77060534724fbb7d4a9bc9b0312f389c6e26a91ef422705"
+  },
+  {
+    "id": "marta_revised_black_1",
+    "source": "361c9b97f38bbabb5f720606c1bc08bf.png",
+    "source_sha256": "1f46e5fcc3821ed4fb261b4b453458a211f59b0f51bccd6c86fd746a8a53ee6c",
+    "corners": [
+      [
+        49,
+        16
+      ],
+      [
+        308,
+        18
+      ],
+      [
+        306,
+        185
+      ],
+      [
+        40,
+        181
+      ]
+    ],
+    "output": "supplied/marta_revised_black_1.webp",
+    "sha256": "2ef7b61d12bf874304be0aa2812624b0e14e743c470c3a4a645b31cfd490dbb1"
+  },
+  {
+    "id": "marta_revised_black_2",
+    "source": "361c9b97f38bbabb5f720606c1bc08bf.png",
+    "source_sha256": "1f46e5fcc3821ed4fb261b4b453458a211f59b0f51bccd6c86fd746a8a53ee6c",
+    "corners": [
+      [
+        18,
+        423
+      ],
+      [
+        320,
+        431
+      ],
+      [
+        318,
+        642
+      ],
+      [
+        6,
+        636
+      ]
+    ],
+    "output": "supplied/marta_revised_black_2.webp",
+    "sha256": "4f10a785fe6493f9e2098e673edaf99d0139573c4e569f3aec1693a0c3729961"
+  },
+  {
+    "id": "marta_revised_black_3",
+    "source": "361c9b97f38bbabb5f720606c1bc08bf.png",
+    "source_sha256": "1f46e5fcc3821ed4fb261b4b453458a211f59b0f51bccd6c86fd746a8a53ee6c",
+    "corners": [
+      [
+        38,
+        192
+      ],
+      [
+        321,
+        201
+      ],
+      [
+        316,
+        389
+      ],
+      [
+        24,
+        381
+      ]
+    ],
+    "output": "supplied/marta_revised_black_3.webp",
+    "sha256": "142a9afa99c38d928dcf1c33b2e7424f88f00fc653ad6de9f9104aec16f7e5fa"
+  },
+  {
+    "id": "horn_revised_white_1",
+    "source": "c4bc72df877143ac5fd87582594bd45f.png",
+    "source_sha256": "8d44cc77de634f666f6a967353dfa4fb37915d365b68012fcc33c274cccfd240",
+    "corners": [
+      [
+        972,
+        65
+      ],
+      [
+        1249,
+        74
+      ],
+      [
+        1250,
+        272
+      ],
+      [
+        963,
+        263
+      ]
+    ],
+    "output": "supplied/horn_revised_white_1.webp",
+    "sha256": "4b05aa9dd5012309ea23798b64b834f7da718790f511f52058791b10df4ed49d"
+  },
+  {
+    "id": "horn_revised_white_2",
+    "source": "324ceb04e247ca0463b80979a690d2e2.png",
+    "source_sha256": "150d23d6dc1d96e6f3afcea451823fea00f6b5eaf15f9dda79329960a477127e",
+    "corners": [
+      [
+        789,
+        315
+      ],
+      [
+        1134,
+        318
+      ],
+      [
+        1139,
+        601
+      ],
+      [
+        776,
+        590
+      ]
+    ],
+    "output": "supplied/horn_revised_white_2.webp",
+    "sha256": "d5c5dcfd74c1970f161b76aed7803b363c328fca3e86aaa4f0eb8a68ce63aeb8"
+  },
+  {
+    "id": "horn_revised_white_3",
+    "source": "324ceb04e247ca0463b80979a690d2e2.png",
+    "source_sha256": "150d23d6dc1d96e6f3afcea451823fea00f6b5eaf15f9dda79329960a477127e",
+    "corners": [
+      [
+        791,
+        52
+      ],
+      [
+        1106,
+        55
+      ],
+      [
+        1121,
+        289
+      ],
+      [
+        776,
+        281
+      ]
+    ],
+    "output": "supplied/horn_revised_white_3.webp",
+    "sha256": "c2a3e9994dc234b8d6e4fc84e9c1680feeee1a47f5b381c656264f9173320888"
+  },
+  {
+    "id": "horn_revised_black_1",
+    "source": "7801a68e57a740e97b3e8e0a1c1efd62.png",
+    "source_sha256": "5311b4558c513452e7b7d7129f48bfd4022af2178d5c7074a089447a8596f272",
+    "corners": [
+      [
+        574,
+        24
+      ],
+      [
+        911,
+        28
+      ],
+      [
+        918,
+        244
+      ],
+      [
+        567,
+        238
+      ]
+    ],
+    "output": "supplied/horn_revised_black_1.webp",
+    "sha256": "e2643cf887a776990e8e708e2f36b830592085a44c5c23dffd6489d5392d3790"
+  },
+  {
+    "id": "horn_revised_black_2",
+    "source": "31a64142845dac90b7a3838091872baf.png",
+    "source_sha256": "5565850c74f83286a34dcc836c7b4d959a0a4ecf2f26a86722e3c9a555cc5d7c",
+    "corners": [
+      [
+        507,
+        28
+      ],
+      [
+        778,
+        34
+      ],
+      [
+        785,
+        201
+      ],
+      [
+        498,
+        199
+      ]
+    ],
+    "output": "supplied/horn_revised_black_2.webp",
+    "sha256": "4db2dfbec0e824340a2c1afa6ec24338be4ad3c13339413a2ebb14f0c7d8dcf0"
+  },
+  {
+    "id": "horn_revised_black_3",
+    "source": "324ceb04e247ca0463b80979a690d2e2.png",
+    "source_sha256": "150d23d6dc1d96e6f3afcea451823fea00f6b5eaf15f9dda79329960a477127e",
+    "corners": [
+      [
+        1177,
+        69
+      ],
+      [
+        1537,
+        78
+      ],
+      [
+        1564,
+        308
+      ],
+      [
+        1170,
+        299
+      ]
+    ],
+    "output": "supplied/horn_revised_black_3.webp",
+    "sha256": "fca57e10d3789e7585fc542a617cf1b557ca3f1968506e47b62c233e86c22bf2"
+  },
+  {
+    "id": "horn_five_white_1",
+    "source": "1721c4ee5e2789b7973357a2d6d9c651.png",
+    "source_sha256": "372d02db77a2e07a470b23d17387d5a23db4c95eb0c060e3d28b6b33305807be",
+    "corners": [
+      [
+        501,
+        490
+      ],
+      [
+        809,
+        501
+      ],
+      [
+        813,
+        733
+      ],
+      [
+        490,
+        732
+      ]
+    ],
+    "output": "supplied/horn_five_white_1.webp",
+    "sha256": "3890adadf1fe0b219e9072f0ec4dfbfa5453f43531e9a0361e8c8c7b37efd594"
+  },
+  {
+    "id": "horn_five_white_2",
+    "source": "1721c4ee5e2789b7973357a2d6d9c651.png",
+    "source_sha256": "372d02db77a2e07a470b23d17387d5a23db4c95eb0c060e3d28b6b33305807be",
+    "corners": [
+      [
+        525,
+        29
+      ],
+      [
+        805,
+        31
+      ],
+      [
+        811,
+        225
+      ],
+      [
+        514,
+        217
+      ]
+    ],
+    "output": "supplied/horn_five_white_2.webp",
+    "sha256": "be065743321732da4638bfc1283c568132230fdb9a1b66a353c14e1bb2b09a80"
+  },
+  {
+    "id": "horn_five_white_3",
+    "source": "1721c4ee5e2789b7973357a2d6d9c651.png",
+    "source_sha256": "372d02db77a2e07a470b23d17387d5a23db4c95eb0c060e3d28b6b33305807be",
+    "corners": [
+      [
+        498,
+        276
+      ],
+      [
+        789,
+        286
+      ],
+      [
+        801,
+        479
+      ],
+      [
+        484,
+        470
+      ]
+    ],
+    "output": "supplied/horn_five_white_3.webp",
+    "sha256": "31c755da23e4cd74953c15aff76596b4b6df43587d9162e15a8957978a0864d9"
+  },
+  {
+    "id": "lazy_life",
+    "source": "62d915994a287f4fa852880f20707bcb.png",
+    "source_sha256": "b853d3f7dde5dae607ea0c0658f166b6bbd52bbcf8109c13d5052804c21def09",
+    "corners": [
+      [
+        32,
+        14
+      ],
+      [
+        312,
+        17
+      ],
+      [
+        315,
+        402
+      ],
+      [
+        20,
+        398
+      ]
+    ],
+    "output": "supplied/lazy_life.webp",
+    "sha256": "0886ec502a2cd1f42d386848b9a94c73233237067064706f029cb4c9f34bf349"
+  }
+]
