@@ -2,7 +2,7 @@
   "date": "2026-10-31",
   "version": "4.1.0",
   "upstream": "cat90132-beep/isekai-guild-master@22bb8be0deacab3488a267b6f49a5934bc95b886",
-  "rule_and_tcp_tests": 34,
+  "rule_and_tcp_tests": 37,
   "exported_client_checks": 124,
   "source_ui_checks": 48,
   "verified": [
@@ -17,7 +17,8 @@
     "local save dialog",
     "solo card mode switching",
     "exploration payment and deep map",
-    "client/server ZIP SHA-256 manifests"
+    "client/server ZIP SHA-256 manifests",
+    "fresh standalone server contains all replay atlases and raster fallbacks; nine HTTP assets return 200"
   ],
   "artifacts": [
     {
@@ -27,8 +28,10 @@
     },
     {
       "name": "guild-server-4.1.0.zip",
-      "size_bytes": 23368115,
-      "sha256": "c18adc8c3d21a99d574ce8ff781447ded2e302a6a69607b0326f1a7da1021818"
+      "size_bytes": 67742833,
+      "sha256": "0bdf34c6163ca7e448c4771155a2ac124d6a1474605f9355a51c08d399b2485e"
     }
-  ]
+  ],
+  "standalone_replay_components": 516,
+  "standalone_http_checks": 9
 }

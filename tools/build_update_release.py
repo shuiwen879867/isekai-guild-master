@@ -35,13 +35,13 @@ def package(folder,target):
     return dict(name=target.name,size_bytes=target.stat().st_size,sha256=hashlib.sha256(target.read_bytes()).hexdigest())
 
 def main():
-    parser=argparse.ArgumentParser();parser.add_argument('--skip-export',action='store_true');args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('--skip-export',action='store_true');parser.add_argument('--server-only',action='store_true');args=parser.parse_args()
     subprocess.run([sys.executable,str(ROOT/'tools/prepare_update.py')],check=True)
     # Keep source-tree F5 testing identical to the exported local engine.
     for path in (PACK/'rules').glob('*.py'):shutil.copy2(path,SRC/'rules'/path.name)
     editor=Path(os.environ.get('GODOT_BIN',ROOT.parent/'.qa-runtime/godot-sdk/editor/Godot_v4.7.2-stable_win64_console.exe'))
     template=ROOT.parent/'.qa-runtime/godot-sdk/templates/windows_release_x86_64.exe'
-    if not args.skip_export:
+    if not args.skip_export and not args.server_only:
         if not editor.is_file():raise SystemExit('Set GODOT_BIN to the Godot 4.7.2 console executable.')
         preset=(SRC/'export_presets.cfg').read_text('utf8')
         preset=preset.replace('name="GuildMaster"','name="Windows"').replace('runnable=false','runnable=true')
@@ -62,6 +62,38 @@ def main():
     # Public replay thumbnails and website documentation use the new prints.
     sys.path.insert(0,str(SERVER))
     from guild_content import HEROES,CARDS
+    import guild_card_layouts
+    # The upstream server index references original glyph/paper atlases but
+    # did not ship them. Standalone installs must have all 516 components.
+    for name in guild_card_layouts.component_paths():
+        relative=Path(name.removeprefix('images/'));destination=SERVER/relative
+        if not destination.is_file():
+            candidates=[ROOT.parent/name,PACK/'art'/relative]
+            source=next((p for p in candidates if p.is_file()),None)
+            if source is None:raise SystemExit('Missing required replay component: '+name)
+            destination.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(source,destination)
+    # Preserve the same scan faces used by the client for cards that are not
+    # covered by the legacy component index.
+    catalog=json.loads((SRC/'data/catalog.json').read_text('utf8'))
+    def raster(source):
+        atlas=catalog['atlas'].get(source)
+        if atlas:
+            im=raster(atlas['path']);x,y,w,h=map(int,atlas['box']);return im.crop((x,y,x+w,y+h))
+        path=PACK/'art'/source
+        if not path.is_file():path=PACK/'art'/source.removeprefix('images/')
+        return Image.open(path).convert('RGB')
+    from guild_content import ACHIEVEMENTS
+    images={}
+    for definition in list(catalog['cards'].values())+list(catalog['achievements'].values()):
+        if definition.get('available',True) and type(definition.get('image')) is int:images[definition['image']]=definition
+    for definition in list(CARDS.values())+list(ACHIEVEMENTS.values()):
+        number=definition.get('image')
+        if not definition.get('available',True) or type(number)is not int or guild_card_layouts.source_for_image(number) in guild_card_layouts.LAYOUTS:continue
+        full=SERVER/'replay_web/cardfull'/(str(number)+'.jpg')
+        if full.is_file():continue
+        im=raster(images[number]['source'])
+        for folder,width in [('cardfull',1200),('cards',240)]:
+            face=im.copy();face.thumbnail((width,width));face.save(SERVER/'replay_web'/folder/(str(number)+'.jpg'),quality=90)
     for key,hero in HEROES.items():
         if not hero.get('screenshot_print'):continue
         for number,source in zip(hero['images'],hero['source']):
@@ -76,9 +108,10 @@ def main():
     shots=SERVER/'site/shots';shots.mkdir(exist_ok=True)
     for source,name in [('DLC玩法总览.png','dlc-guide-4.1.png'),('更新日志_4.1.png','update-4.1.png')]:shutil.copy2(ROOT/'docs'/source,shots/name)
     config=SERVER/'site/site.json';data=json.loads(config.read_text('utf8'));data['version']='4.1.0';config.write_text(json.dumps(data,ensure_ascii=False,indent=2),'utf8')
-    for folder in (PACK,SERVER):manifest(folder)
+    for folder in ([SERVER] if args.server_only else [PACK,SERVER]):manifest(folder)
     dist=ROOT/'dist';dist.mkdir(exist_ok=True)
-    artifacts=[package(PACK,dist/'GuildMaster-Windows-4.1.0.zip'),package(SERVER,dist/'guild-server-4.1.0.zip')]
+    client=next(a for a in json.loads((ROOT/'release-files.json').read_text('utf8'))['artifacts'] if a['name']=='GuildMaster-Windows-4.1.0.zip') if args.server_only else package(PACK,dist/'GuildMaster-Windows-4.1.0.zip')
+    artifacts=[client,package(SERVER,dist/'guild-server-4.1.0.zip')]
     (ROOT/'release-files.json').write_text(json.dumps(dict(version='4.1.0',revision=REVISION,artifacts=artifacts),ensure_ascii=False,indent=2),'utf8')
     print(json.dumps(artifacts,indent=2))
 
