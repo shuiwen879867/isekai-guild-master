@@ -10,6 +10,7 @@ import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
+from guild_websocket import upgrade
 
 STATIC_FILES = {'/': 'index.html', '/index.html': 'index.html', '/style.css': 'style.css',
                 '/app.js': 'app.js', '/favicon.svg': 'favicon.svg'}
@@ -22,13 +23,15 @@ class SiteWeb:
     """Serve the landing page; package downloads are retired."""
 
     def __init__(self, site_dir, download_dir=None, host='0.0.0.0', port=6680,
-                 portrait_dir=None, overrides=None, status_provider=None):
+                 portrait_dir=None, overrides=None, status_provider=None, game_endpoint=None):
         site = self
         self.site = Path(site_dir).resolve()
         self.download_dir = Path(download_dir).resolve() if download_dir else self.site / 'downloads'
         self.portraits = Path(portrait_dir).resolve() if portrait_dir else None
         self.config = self._read_config()
         self.status_provider = status_provider
+        self.stop = threading.Event()
+        self.websocket_slots = threading.BoundedSemaphore(64)
         # Runtime settings (real ports, whether the replay site runs) win over site.json.
         for key, value in (overrides or {}).items():
             if value is not None:
@@ -36,6 +39,8 @@ class SiteWeb:
 
         class Handler(BaseHTTPRequestHandler):
             head_only = False
+            # Do not read upgraded frame bytes into an HTTP-only buffered reader.
+            rbufsize = 0
 
             def do_HEAD(self):
                 # Download managers and proxies probe files with HEAD; reuse the
@@ -46,6 +51,9 @@ class SiteWeb:
             def do_GET(self):
                 path = urlsplit(self.path).path
                 try:
+                    if path == '/game/socket' and game_endpoint:
+                        upgrade(self, game_endpoint, site.stop, site.websocket_slots)
+                        return
                     if path == '/api/site':
                         payload = dict(site.config)
                         payload['downloads'] = site.downloads()
@@ -139,6 +147,7 @@ class SiteWeb:
         return self
 
     def close(self):
+        self.stop.set()
         if self.thread:
             self.http.shutdown()
             self.thread.join(timeout=5)

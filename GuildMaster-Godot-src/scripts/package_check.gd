@@ -74,6 +74,13 @@ func run(client):
 		if argument.begins_with("--qa-output="): output = argument.trim_prefix("--qa-output=")
 		if argument.begins_with("--qa-server-port="): qa_port = int(argument.trim_prefix("--qa-server-port="))
 	var original_preferences = ui.prefs.duplicate(true)
+	check(not ui.prefs.voices and ui.prefs.voice_language == "ja", "fresh exported client starts muted with Japanese selected")
+	var portrait_count = 0
+	for key in ui.store.catalog.heroes:
+		var source = ui.store.portrait_source(key)
+		check(ui.store.portrait(key) != null and ui.store.portrait_bust(key) != null, "portrait and bust load for every print: " + key)
+		if source.begins_with("images/tts/"): portrait_count += 1
+	check(portrait_count == 31, "31 prints use verified standalone artwork")
 	var voice_result = load("res://scripts/voice_check.gd").new().run(ui)
 	check(voice_result.passed, "all character voices decode and trigger in the exported client")
 	if not output.is_empty():

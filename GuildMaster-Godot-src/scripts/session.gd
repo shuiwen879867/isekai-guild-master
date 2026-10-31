@@ -7,6 +7,9 @@ signal connected
 
 const MAX_FRAME = 262144
 var peer = StreamPeerTCP.new()
+var websocket: WebSocketPeer
+var websocket_mode = false
+var fallback_attempted = false
 var incoming = PackedByteArray()
 var outgoing = PackedByteArray()
 var hello = {}
@@ -14,6 +17,7 @@ var active = false
 var greeted = false
 var handshake_complete = false
 var directory = false
+var directory_received = false
 var local_mode = false
 var room = {}
 var game = {}
@@ -55,6 +59,8 @@ func _process(_delta):
 			waiting_local = false
 			notice.emit("离线模式启动失败，请检查完整客户端运行库。")
 	if not active: return
+	if websocket_mode:
+		_poll_websocket();return
 	peer.poll()
 	var status = peer.get_status()
 	if status == StreamPeerTCP.STATUS_CONNECTED:
@@ -66,28 +72,85 @@ func _process(_delta):
 		if available > 0:
 			var result = peer.get_data(min(available, MAX_FRAME + 4))
 			if result[0] != OK:
-				_fail("连接读取失败。");return
+				_transport_failed("连接读取失败。");return
 			incoming.append_array(result[1])
 			_decode()
 			if not active: return
 		if not outgoing.is_empty():
 			var sent = peer.put_partial_data(outgoing)
 			if sent[0] != OK:
-				_fail("连接发送失败。");return
+				_transport_failed("连接发送失败。");return
 			outgoing = outgoing.slice(int(sent[1]))
+		if not handshake_complete and Time.get_ticks_msec() - connect_stamp > 3000 and _try_fallback(): return
 		if not handshake_complete and Time.get_ticks_msec() - connect_stamp > 15000:
-			_fail("公会同步超时：服务器未确认连接，请检查服务器版本、地址及端口后重试。")
+			_transport_failed("公会同步超时，请稍后重新连接。")
 	elif status == StreamPeerTCP.STATUS_ERROR or (greeted and status == StreamPeerTCP.STATUS_NONE):
-		_fail("与服务器的连接已断开，可重新连接恢复席位。")
+		_transport_failed("与服务器的连接已断开，可重新连接恢复席位。")
+	elif Time.get_ticks_msec() - connect_stamp > 3000 and _try_fallback(): return
 	elif Time.get_ticks_msec() - connect_stamp > 15000:
-		_fail("连接超时，请检查服务器地址和端口。")
+		_transport_failed("连接超时，请检查服务器地址和端口。")
+
+func _disconnect_transport():
+	peer.disconnect_from_host()
+	if websocket != null: websocket.close();websocket = null
+	websocket_mode = false
+
+func _try_fallback() -> bool:
+	if local_mode or handshake_complete or fallback_attempted or port != 6677 or address.to_lower() not in ["guanpeng666.cn", "154.36.164.109"]: return false
+	fallback_attempted = true
+	_open_websocket(address, 6680)
+	notice.emit("正在重试连接…")
+	return true
+
+func _transport_failed(message: String):
+	if not _try_fallback(): _fail(message)
+
+func _open_websocket(host: String, site_port: int):
+	_disconnect_transport();incoming.clear();outgoing.clear()
+	websocket_mode = true;greeted = false;handshake_complete = false;active = true;connect_stamp = Time.get_ticks_msec()
+	synchronized = false;room_connected = false;directory_received = false
+	websocket = WebSocketPeer.new()
+	websocket.inbound_buffer_size = 4 * (MAX_FRAME + 4)
+	websocket.outbound_buffer_size = 4 * (MAX_FRAME + 4)
+	websocket.max_queued_packets = 128
+	var error = websocket.connect_to_url("ws://%s:%s/game/socket" % [host, site_port])
+	if error != OK: _fail("无法连接：" + error_string(error))
+
+func connect_websocket(host: String, site_port: int, name_text: String):
+	close();address = host;nickname = name_text;local_mode = false;fallback_attempted = true
+	hello = {"type": "hello", "name": nickname, "client_version": "4.1.0", "protocol": 3}
+	_open_websocket(host, site_port)
+
+func _poll_websocket():
+	websocket.poll()
+	var state = websocket.get_ready_state()
+	if state == WebSocketPeer.STATE_OPEN:
+		if not greeted: greeted = true;send(hello)
+		while websocket.get_available_packet_count() > 0:
+			var data = websocket.get_packet()
+			if websocket.get_packet_error() != OK or websocket.was_string_packet() or incoming.size() + data.size() > 4 * (MAX_FRAME + 4):
+				_fail("连接读取失败。");return
+			incoming.append_array(data);_decode()
+			if not active: return
+		if not outgoing.is_empty():
+			var count = min(outgoing.size(), MAX_FRAME + 4)
+			var error = websocket.send(outgoing.slice(0, count), WebSocketPeer.WRITE_MODE_BINARY)
+			if error == OK: outgoing = outgoing.slice(count)
+			elif error != ERR_BUSY: _fail("连接发送失败。");return
+	elif state == WebSocketPeer.STATE_CLOSED:
+		_fail("与服务器的连接已断开，可重新连接恢复席位。");return
+	if not handshake_complete and Time.get_ticks_msec() - connect_stamp > 15000:
+		_fail("公会同步超时，请稍后重新连接。")
+
+func transport_connected() -> bool:
+	return websocket.get_ready_state() == WebSocketPeer.STATE_OPEN if websocket_mode and websocket != null else peer.get_status() == StreamPeerTCP.STATUS_CONNECTED
 
 func _open(host: String, number: int, handshake: Dictionary):
-	peer = StreamPeerTCP.new();incoming.clear();outgoing.clear()
+	_disconnect_transport();peer = StreamPeerTCP.new();incoming.clear();outgoing.clear();fallback_attempted = false
 	hello = handshake;greeted = false;handshake_complete = false;active = true;connect_stamp = Time.get_ticks_msec()
-	synchronized = false;room_connected = false
+	synchronized = false;room_connected = false;directory_received = false
 	var error = peer.connect_to_host(host, number)
-	if error != OK: _fail("无法连接：" + error_string(error))
+	if error != OK: _transport_failed("无法连接：" + error_string(error))
 
 func connect_server(host: String, number: int, name_text: String):
 	close()
@@ -145,7 +208,7 @@ func action(kind: String, args: Dictionary = {}):
 func leave_room():
 	if local_mode or (room.is_empty() and game.is_empty()):
 		close()
-	elif not active or peer.get_status() != StreamPeerTCP.STATUS_CONNECTED:
+	elif not active or not transport_connected():
 
 		close()
 		reconnect()
@@ -173,7 +236,7 @@ func _receive(message: Dictionary):
 			if not handshake_complete: handshake_complete = true;connected.emit()
 			directory = true
 			if not reconnect_room.is_empty(): send(reconnect_room);reconnect_room = {}
-		"directory": rooms = message.get("rooms", [])
+		"directory": rooms = message.get("rooms", []);directory_received = true
 		"welcome":
 			if local_mode and not handshake_complete: handshake_complete = true;connected.emit()
 			room_connected = true
@@ -213,16 +276,17 @@ func can_free_action() -> bool:
 func reconnect():
 	if local_mode: return
 	var restore = {"type": "enter_room", "room_id": room_id, "password": password, "role": role, "resume_token": resume_token}
-	peer.disconnect_from_host();active = false
+	_disconnect_transport();active = false
 	_open(address, port, {"type": "hello", "name": nickname, "client_version": "4.1.0", "protocol": 3})
 	if not room_id.is_empty(): reconnect_room = restore
 
 func _fail(message: String):
-	active = false;peer.disconnect_from_host();notice.emit(message);changed.emit()
+	active = false;_disconnect_transport();notice.emit(message);changed.emit()
 
 func close():
-	active = false;waiting_local = false;peer.disconnect_from_host()
+	active = false;waiting_local = false;_disconnect_transport()
 	handshake_complete = false
+	directory_received = false
 	synchronized = false;room_connected = false
 	if child_pid > 0 and OS.is_process_running(child_pid): OS.kill(child_pid)
 	child_pid = -1;room = {};game = {};rooms = [];role = "browser";player_id = -1;directory = false

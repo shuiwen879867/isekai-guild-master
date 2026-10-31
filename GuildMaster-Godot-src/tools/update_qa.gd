@@ -18,13 +18,15 @@ func run():
 	ui = load("res://main.tscn").instantiate();root.add_child(ui);await frames()
 	check(ui.prefs.language == "zh_CN", "clean install defaults to simplified Chinese")
 	check(ui.prefs.voice_language == "ja", "clean install defaults to Japanese voice")
+	check(not ui.prefs.voices, "clean install defaults to muted voices")
 	check(GuildLang.t("異世界公會長") == "异世界公会长", "simplified UI converts traditional source strings")
 	check(ui.voice != null and AudioServer.get_bus_index("Voice") >= 0, "independent voice bus")
 	var count = 0
 	for variant in ["white", "red"]:
 		for rank in range(1, 4):
 			check(ResourceLoader.exists(GuildVoice.PREFIX + "card-%s-r%s.ogg" % [variant, rank]), "voice rank clip %s %s" % [variant, rank]);count += 1
-	ui.voice.play_event("shion_white", "intro");check(ui.voice.player.playing, "Shion sample starts playback")
+	ui.prefs.voices = true;ui.voice.apply_settings()
+	ui.voice.play_event("shion_white", "intro");check(ui.voice.player.playing, "Shion sample starts playback when enabled")
 	ui.prefs.voices = false;ui.voice.apply_settings();check(not ui.voice.player.playing, "voice switch immediately stops playback")
 	ui.prefs.voices = true;ui.voice.apply_settings()
 	for hero in ui.store.catalog.heroes.values():

@@ -13,13 +13,13 @@ from PIL import Image
 
 ROOT=Path(__file__).resolve().parents[1]
 SRC=ROOT/'GuildMaster-Godot-src';PACK=ROOT/'GuildMaster-Godot';SERVER=ROOT/'guild-server'
-REVISION='20261031-4.1.0-refactor-update'
+from release_config import VERSION,REVISION
 
 
 def export_fingerprint():
     digest=hashlib.sha256()
     paths=[p for p in files(SRC) if p.suffix in ('.gd','.tscn') or p.parent==SRC/'data' or p.name in ('project.godot','export_presets.cfg')]
-    paths.append(ROOT/'docs/VOICE_VALIDATION.json')
+    paths.extend([ROOT/'docs/VOICE_VALIDATION.json',ROOT/'release.json'])
     for path in sorted(paths):
         digest.update(path.relative_to(ROOT).as_posix().encode());digest.update(path.read_bytes())
     return digest.hexdigest()
@@ -31,7 +31,7 @@ def files(folder):
         yield path
 
 def manifest(folder):
-    data=dict(version='4.1.0',revision=REVISION,upstream='cat90132-beep/isekai-guild-master@refactor',
+    data=dict(version=VERSION,revision=REVISION,upstream='cat90132-beep/isekai-guild-master@refactor',
               files={p.relative_to(folder).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in files(folder) if p.name!='BUILD_INFO.json' and not any(k in p.relative_to(folder).parts for k in ('tools','replays','downloads','replay-cache'))})
     voice=json.loads((ROOT/'docs/VOICE_VALIDATION.json').read_text('utf8'))
     data['voice_validation']={k:v for k,v in voice.items() if k!='files'}
@@ -80,7 +80,7 @@ def main():
     for name in ['DLC玩法总览.png','更新日志_4.1.png']:shutil.copy2(ROOT/'docs'/name,PACK/'docs'/name)
     for folder in (PACK,SERVER):
         (folder/'docs').mkdir(exist_ok=True)
-        for name in ['CHARACTER_VOICES.json','VOICE_VALIDATION.json','SUPPLIED_VOICE_OVERRIDES.json']:
+        for name in ['CHARACTER_VOICES.json','VOICE_VALIDATION.json','SUPPLIED_VOICE_OVERRIDES.json','PORTRAIT_STATUS.json']:
             shutil.copy2(ROOT/'docs'/name,folder/'docs'/name)
     shutil.copy2(ROOT/'README.md',PACK/'README.md')
     # Public replay thumbnails and website documentation use the new prints.
@@ -126,18 +126,24 @@ def main():
             for folder,width in [('cardfull',1000),('cards',240)]:
                 output=SERVER/'replay_web'/folder;output.mkdir(parents=True,exist_ok=True)
                 face=image.copy();face.thumbnail((width,width));face.save(output/(str(number)+'.jpg'),quality=90)
-        portrait=Image.open(PACK/'art'/hero['source'][0]).convert('RGBA');portrait=portrait.crop((5,30,355,535));portrait.thumbnail((210,320))
-        portrait.save(SERVER/'replay_web/portraits'/(key+'.png'))
+
+    portraits=json.loads((SRC/'data/portraits.json').read_text('utf8'))['sources']
+    for key,source in portraits.items():
+        output=SERVER/'replay_web/portraits'/(key+'.png')
+        if not source:
+            if output.is_file():output.unlink()
+            continue
+        portrait=raster(source).convert('RGBA');portrait.thumbnail((210,320));portrait.save(output)
     for folder,width in [('cardfull',800),('cards',240)]:
         im=Image.open(PACK/'art/supplied/lazy_life.webp').convert('RGB');im.thumbnail((width,width));im.save(SERVER/'replay_web'/folder/'303.jpg',quality=90)
     shots=SERVER/'site/shots';shots.mkdir(exist_ok=True)
     for source,name in [('DLC玩法总览.png','dlc-guide-4.1.png'),('更新日志_4.1.png','update-4.1.png')]:shutil.copy2(ROOT/'docs'/source,shots/name)
-    config=SERVER/'site/site.json';data=json.loads(config.read_text('utf8'));data['version']='4.1.0';config.write_text(json.dumps(data,ensure_ascii=False,indent=2),'utf8')
+    config=SERVER/'site/site.json';data=json.loads(config.read_text('utf8'));data['version']=VERSION;config.write_text(json.dumps(data,ensure_ascii=False,indent=2),'utf8')
     for folder in ([SERVER] if args.server_only else [PACK,SERVER]):manifest(folder)
     dist=ROOT/'dist';dist.mkdir(exist_ok=True)
-    client=next(a for a in json.loads((ROOT/'release-files.json').read_text('utf8'))['artifacts'] if a['name']=='GuildMaster-Windows-4.1.0.zip') if args.server_only else package(PACK,dist/'GuildMaster-Windows-4.1.0.zip')
-    artifacts=[client,package(SERVER,dist/'guild-server-4.1.0.zip')]
-    (ROOT/'release-files.json').write_text(json.dumps(dict(version='4.1.0',revision=REVISION,artifacts=artifacts),ensure_ascii=False,indent=2),'utf8')
+    client=next(a for a in json.loads((ROOT/'release-files.json').read_text('utf8'))['artifacts'] if a['name']==f'GuildMaster-Windows-{VERSION}.zip') if args.server_only else package(PACK,dist/f'GuildMaster-Windows-{VERSION}.zip')
+    artifacts=[client,package(SERVER,dist/f'guild-server-{VERSION}.zip')]
+    (ROOT/'release-files.json').write_text(json.dumps(dict(version=VERSION,revision=REVISION,artifacts=artifacts),ensure_ascii=False,indent=2),'utf8')
     print(json.dumps(artifacts,indent=2))
 
 if __name__=='__main__':main()

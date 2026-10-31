@@ -22,7 +22,7 @@ static func home(ui, parent: Control):
 	var card = GuildRenpyTable.surface(ui, parent, Rect2(1124, 112, 614, 850))
 	var keys = []
 	for key in ui.store.catalog.heroes:
-		if ui.store.catalog.heroes[key].get("available", false): keys.append(key)
+		if ui.store.catalog.heroes[key].get("available", false) and not ui.store.portrait_source(key).is_empty(): keys.append(key)
 	if keys.is_empty():
 		keys = ["hainie_red"]
 	if ui.home_portrait == "" or not keys.has(ui.home_portrait): ui.home_portrait = keys[randi() % keys.size()]
@@ -44,7 +44,7 @@ static func home(ui, parent: Control):
 			arrow.add_theme_font_size_override("font_size", 26)
 			arrow.add_theme_constant_override("outline_size", 3)
 			arrow.add_theme_color_override("font_outline_color", Color(0.12, 0.08, 0.1, 0.85))
-	GuildRenpyTable.caption(ui, parent, "异世界公会长  /  3.2.0", Rect2(108, 994, 800, 30), 18, Color("d2c4b6"))
+	GuildRenpyTable.caption(ui, parent, "异世界公会长  /  " + str(ProjectSettings.get_setting("application/config/version")).trim_suffix("-godot"), Rect2(108, 994, 800, 30), 18, Color("d2c4b6"))
 	GuildRenpyTable.caption(ui, parent, "慢慢来，公会的灯为你亮着。", Rect2(1124, 994, 750, 30), 20, Color("d2c4b6"))
 
 static func room(ui, parent: Control):

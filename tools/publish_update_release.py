@@ -13,7 +13,7 @@ import urllib.request
 
 ROOT=Path(__file__).resolve().parents[1]
 REPO='shuiwen879867/isekai-guild-master'
-TAG='v4.1.0'
+from release_config import VERSION,TAG
 
 
 def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
@@ -27,6 +27,13 @@ def main():
     package=json.loads((ROOT/'qa/package-bilingual/voice-results.json').read_text('utf8'))
     if not package['passed'] or not package.get('package_passed') or package['manifest_sha256']!=manifest_sha or package['clips']!=1134 or set(package['languages'])!={'ja','zh_CN'}:
         raise RuntimeError('The exported bilingual client has not passed its checks')
+    pck_sha=sha(ROOT/'GuildMaster-Godot/GuildMaster.pck')
+    connection=json.loads((ROOT/'qa/public-client/connection-results.json').read_text('utf8'))
+    if not connection.get('passed') or connection.get('pck_sha256')!=pck_sha or package.get('pck_sha256')!=pck_sha:
+        raise RuntimeError('This exported client must pass package and actual public connection checks')
+    fallback=json.loads((ROOT/'qa/public-client-fallback/connection-results.json').read_text('utf8'))
+    if not fallback.get('passed') or fallback.get('transport')!='websocket' or fallback.get('pck_sha256')!=pck_sha:
+        raise RuntimeError('The exported client must also pass automatic fallback and reconnect checks')
     env=dict(os.environ,GIT_TERMINAL_PROMPT='0',GCM_INTERACTIVE='Never')
     credentials=subprocess.run(['git','credential','fill'],input='protocol=https\nhost=github.com\n\n',capture_output=True,text=True,check=True,env=env,timeout=40)
     values=dict(line.split('=',1) for line in credentials.stdout.splitlines() if '=' in line)
@@ -51,15 +58,10 @@ def main():
     if release is None:
         release=next((item for item in api(base+'/releases?per_page=100') if item['tag_name']==TAG),None)
     if release is None:
-        for state_path in [ROOT/'qa/publish-receipt.json',ROOT/'qa/release-before-voice-completion.json']:
-            if not state_path.exists():continue
-            state=json.loads(state_path.read_text('utf8'));identifier=state.get('release_id',state.get('id'))
-            if identifier:
-                release=api(base+'/releases/'+str(int(identifier)))
-                break
-    if release is None:raise RuntimeError('The prepared draft release was not found')
+        if args.publish:raise RuntimeError('Stage this release before publishing')
+        release=api(base+'/releases',dict(tag_name=TAG,target_commitish=commit,draft=True,name='异世界公会长 v'+VERSION),method='POST')
     release_id=release['id']
-    assets=[(ROOT/'dist/GuildMaster-Windows-4.1.0.zip','GuildMaster-Windows-4.1.0.zip','application/zip'),(ROOT/'dist/guild-server-4.1.0.zip','guild-server-4.1.0.zip','application/zip'),(ROOT/'docs/更新日志_4.1.png','update-log-4.1.png','image/png'),(ROOT/'docs/DLC玩法总览.png','dlc-guide-4.1.png','image/png')]
+    assets=[(ROOT/f'dist/GuildMaster-Windows-{VERSION}.zip',f'GuildMaster-Windows-{VERSION}.zip','application/zip'),(ROOT/f'dist/guild-server-{VERSION}.zip',f'guild-server-{VERSION}.zip','application/zip'),(ROOT/'docs/更新日志_4.1.png','update-log-4.1.png','image/png'),(ROOT/'docs/DLC玩法总览.png','dlc-guide-4.1.png','image/png')]
     checksum=ROOT/'qa/SHA256SUMS.txt'
     checksum.write_text(''.join(sha(path)+'  '+name+'\n' for path,name,mime in assets),'ascii')
     assets.append((checksum,'SHA256SUMS.txt','text/plain'))
@@ -67,7 +69,7 @@ def main():
     def matches(item,path):return item.get('digest')=='sha256:'+sha(path) and item['size']==path.stat().st_size
 
     if not args.publish:
-        api(base+'/releases/'+str(release_id),dict(tag_name=TAG,target_commitish=commit,draft=True,name='异世界公会长 v4.1.0 · 全角色中日双语配音',body=(ROOT/'docs/RELEASE_4_1.md').read_text('utf8')))
+        api(base+'/releases/'+str(release_id),dict(tag_name=TAG,target_commitish=commit,draft=True,name='异世界公会长 v'+VERSION+' · 连接、配音与立绘修复',body=(ROOT/'docs/RELEASE_4_1_1.md').read_text('utf8')))
         staged=[]
         for path,name,mime in assets:
             current={item['name']:item for item in api(base+'/releases/'+str(release_id)+'/assets')}
@@ -104,12 +106,12 @@ def main():
         for identifier in old:api(base+'/releases/assets/'+str(identifier),method='DELETE')
     else:
         deploy=json.loads((ROOT/'qa/deploy-receipt.json').read_text('utf8'))
-        if deploy.get('archive_sha256')!=sha(ROOT/'dist/guild-server-4.1.0.zip') or deploy.get('voice_validation',{}).get('manifest_sha256')!=manifest_sha or deploy.get('active')!='active':
+        if deploy.get('archive_sha256')!=sha(ROOT/f'dist/guild-server-{VERSION}.zip') or deploy.get('voice_validation',{}).get('manifest_sha256')!=manifest_sha or deploy.get('active')!='active':
             raise RuntimeError('The complete bilingual server has not passed deployment verification')
         current={item['name']:item for item in api(base+'/releases/'+str(release_id)+'/assets')}
         for path,name,mime in assets:
             if name not in current or not matches(current[name],path):raise RuntimeError('Release assets are not ready: '+name)
-        api(base+'/releases/'+str(release_id),dict(tag_name=TAG,target_commitish=commit,draft=False,prerelease=False,name='异世界公会长 v4.1.0 · 全角色中日双语配音',body=(ROOT/'docs/RELEASE_4_1.md').read_text('utf8'),make_latest='true'))
+        api(base+'/releases/'+str(release_id),dict(tag_name=TAG,target_commitish=commit,draft=False,prerelease=False,name='异世界公会长 v'+VERSION+' · 连接、配音与立绘修复',body=(ROOT/'docs/RELEASE_4_1_1.md').read_text('utf8'),make_latest='true'))
     release=api(base+'/releases/'+str(release_id))
     remote={item['name']:item for item in api(base+'/releases/'+str(release_id)+'/assets')}
     receipt=dict(repository='https://github.com/'+REPO,release_id=release_id,commit=commit,draft=release['draft'],release_url=release['html_url'],voice_manifest_sha256=manifest_sha,assets=[dict(name=name,url=remote[name]['browser_download_url'],size=remote[name]['size'],sha256=sha(path)) for path,name,mime in assets])

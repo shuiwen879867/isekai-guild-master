@@ -121,7 +121,8 @@ def main():
                            portrait_dir=here / 'replay_web' / 'portraits',
                            overrides={'game_port': game_port, 'replay_port': replay_port,
                                       'site_port': site_port, 'replay_enabled': bool(web)},
-                           status_provider=server.public_status)
+                           status_provider=server.public_status,
+                           game_endpoint=('127.0.0.1' if host == '0.0.0.0' else '::1' if host == '::' else host, server.port))
     except Exception:
         if server:
             server.close()

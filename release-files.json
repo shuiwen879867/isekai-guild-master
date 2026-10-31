@@ -1,16 +1,16 @@
 {
-  "version": "4.1.0",
-  "revision": "20261031-4.1.0-refactor-update",
+  "version": "4.1.1",
+  "revision": "20261101-4.1.1-connection-mute-portraits",
   "artifacts": [
     {
-      "name": "GuildMaster-Windows-4.1.0.zip",
-      "size_bytes": 274081716,
-      "sha256": "6f6b3e4b93f51e518b84469809fa50260fe5e322f915ebd176daf64d567a0162"
+      "name": "GuildMaster-Windows-4.1.1.zip",
+      "size_bytes": 274239646,
+      "sha256": "a106a38713a8773eaf6c985e74b8d35f6137453dbd5e2de8528180d093713480"
     },
     {
-      "name": "guild-server-4.1.0.zip",
-      "size_bytes": 68494783,
-      "sha256": "1e18c0d648a67efa6376e365e9a841de98e0aaaeb8893cc57cb24e09974076f0"
+      "name": "guild-server-4.1.1.zip",
+      "size_bytes": 70429929,
+      "sha256": "96b29724065d65697870a6d6459d8a044a9953b348cd0185722bc482a990a8cb"
     }
   ]
 }

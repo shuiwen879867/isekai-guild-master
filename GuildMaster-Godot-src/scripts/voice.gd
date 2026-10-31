@@ -34,9 +34,9 @@ func apply_settings():
 	if language != last_language:
 		stop();last_language = language
 	var bus = AudioServer.get_bus_index("Voice")
-	AudioServer.set_bus_mute(bus, not bool(ui.prefs.get("voices", true)))
+	AudioServer.set_bus_mute(bus, not bool(ui.prefs.get("voices", false)))
 	AudioServer.set_bus_volume_db(bus, linear_to_db(maxf(0.0001, float(ui.prefs.get("voice_volume", 0.85)))))
-	if not ui.prefs.get("voices", true): stop()
+	if not ui.prefs.get("voices", false): stop()
 
 func clips_for_event(hero: String, event: String, rank: int = 1, language: String = "") -> Array:
 	var key = "rank_%s" % clampi(rank, 1, 3) if event == "rank" else event
@@ -45,7 +45,7 @@ func clips_for_event(hero: String, event: String, rank: int = 1, language: Strin
 	return catalog.get("heroes", {}).get(hero, {}).get("events", {}).get(locale, {}).get(key, [])
 
 func play_event(hero: String, event: String, rank: int = 1):
-	if not ui.prefs.get("voices", true): return
+	if not ui.prefs.get("voices", false): return
 	var clips = clips_for_event(hero, event, rank)
 	if clips.is_empty(): return
 	if event == "rank" and player.playing:

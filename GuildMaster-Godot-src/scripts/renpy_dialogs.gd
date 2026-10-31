@@ -584,7 +584,7 @@ func settings():
 		if hero_key == "shion_white": preview.select(preview.item_count - 1)
 	voices.add_child(ui.button("试听人物", func():
 		if preview.selected >= 0: ui.voice.play_event(str(preview.get_item_metadata(preview.selected)), "intro"), bool(ui.prefs.voices)))
-	body.add_child(wrapped("中日双语，默认日语。日语优先使用已提供录音，缺少的片段与中文保留角色合成配音。", 18))
+	body.add_child(wrapped("配音默认关闭，开启后默认日语，可切换中文。日语优先使用已提供录音，缺少的片段与中文保留角色合成配音。", 18))
 	var voice_volume = HSlider.new();voice_volume.min_value = 0;voice_volume.max_value = 1;voice_volume.step = 0.01;voice_volume.value = ui.prefs.voice_volume;body.add_child(voice_volume)
 	voice_volume.value_changed.connect(func(value): ui.prefs.voice_volume = value;ui.save_preferences())
 

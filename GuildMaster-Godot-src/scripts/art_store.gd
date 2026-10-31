@@ -3,6 +3,7 @@ extends RefCounted
 
 var catalog = {}
 var layouts = {}
+var portrait_sources = {}
 var textures = {}
 var tiles = {}
 var texture_order = []
@@ -26,6 +27,7 @@ func remember(source: String, value: Texture2D) -> Texture2D:
 func _init():
 	catalog = JSON.parse_string(FileAccess.get_file_as_string("res://data/catalog.json"))
 	layouts = JSON.parse_string(FileAccess.get_file_as_string("res://data/card_layouts.json"))
+	portrait_sources = JSON.parse_string(FileAccess.get_file_as_string("res://data/portraits.json")).sources
 
 func texture(source: String) -> Texture2D:
 	if source.is_empty(): return null
@@ -56,28 +58,17 @@ func natural_size(source: String) -> Vector2:
 
 func card(number) -> Dictionary: return catalog.cards.get(str(int(number)), {})
 
-func portrait(hero_key: String, affection: int = 0) -> Texture2D:
-	var dedicated = texture("images/portraits/" + hero_key + ".webp")
-	if dedicated != null: return dedicated
-	var hero = catalog.heroes.get(hero_key, {})
-	var source = hero.get("portrait", "")
-	if not source.is_empty(): return texture(source)
-	var sources = hero.get("source", [])
-	if sources.is_empty(): return null
-	source = sources[min(sources.size() - 1, 2 if affection >= 5 else 1 if affection >= 2 else 0)]
-	var key = "portrait:" + source
-	if textures.has(key): return textures[key]
-	var base = texture(source)
-	if base == null: return null
-	var image_size = base.get_size(); var result = AtlasTexture.new();result.atlas = base
+func portrait_source(hero_key: String) -> String:
+	return str(portrait_sources.get(hero_key, ""))
 
-	var area = Rect2(0.135, 0.065, 0.33, 0.825) if hero.get("variant") == "black" else Rect2(0.025, 0.055, 0.45, 0.845)
-	result.region = Rect2(area.position * image_size, area.size * image_size)
-	return remember(key, result)
+func portrait(hero_key: String, _affection: int = 0) -> Texture2D:
+	# Prefer independent artwork; explicitly mapped legacy crops are retained
+	# with the user's approval when generation is unavailable.
+	return texture(portrait_source(hero_key))
 
 func portrait_bust(hero_key: String, affection: int = 0) -> Texture2D:
-	var dedicated = texture("images/portraits/" + hero_key + ".webp")
-	if dedicated == null: return portrait(hero_key, affection)
+	var dedicated = portrait(hero_key, affection)
+	if dedicated == null: return null
 	var key = "bust:" + hero_key
 	if textures.has(key): return textures[key]
 	var size = dedicated.get_size()

@@ -6,7 +6,7 @@ const INK = Color("343133")
 const MUTED = Color("6b6460")
 var store = GuildArtStore.new()
 var session = GuildSession.new()
-var prefs = {"name": "公会长", "address": "guanpeng666.cn", "port": 6677, "sounds": true, "sound_volume": 0.65, "voices": true, "voice_volume": 0.85, "voice_language": "ja", "layout": "classic", "motion": true, "hints": true, "frame_limit": 240, "vsync": false, "language": "zh_CN"}
+var prefs = {"name": "公会长", "address": "guanpeng666.cn", "port": 6677, "sounds": true, "sound_volume": 0.65, "voices": false, "voice_volume": 0.85, "voice_language": "ja", "voice_settings_version": 1, "layout": "classic", "motion": true, "hints": true, "frame_limit": 240, "vsync": false, "language": "zh_CN"}
 var voice: GuildVoice
 var content: Control
 var modal_layer: Control
@@ -38,6 +38,7 @@ var dialogs: GuildRenpyDialogs
 var debug_mode = false
 var selected_tile = ""
 var package_check: GuildPackageCheck
+var connection_check: RefCounted
 var renpy_reference = {}
 var hand_page = 0
 var player_clocks = []
@@ -81,6 +82,8 @@ func _ready():
 	_render()
 	var args = OS.get_cmdline_user_args()
 	debug_mode = args.has("--ui-test")
+	if args.has("--verify-public-connection"):
+		connection_check = load("res://scripts/connection_check.gd").new();connection_check.run(self);return
 	if args.has("--verify-package"):
 		package_check = GuildPackageCheck.new();package_check.run(self);return
 	if args.has("--demo") or debug_mode: call_deferred("_start_demo")
@@ -221,6 +224,11 @@ func _load_preferences():
 	var config = ConfigFile.new()
 	if config.load("user://preferences.cfg") == OK:
 		for key in prefs: prefs[key] = config.get_value("preferences", key, prefs[key])
+		if int(config.get_value("preferences", "voice_settings_version", 0)) < 1:
+			prefs.voices = false;prefs.voice_settings_version = 1
+			config.set_value("preferences", "voices", false)
+			config.set_value("preferences", "voice_settings_version", 1)
+			config.save("user://preferences.cfg")
 
 func save_preferences():
 	var config = ConfigFile.new()
