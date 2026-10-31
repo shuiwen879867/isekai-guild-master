@@ -50,6 +50,13 @@ def main():
     release=api(base+'/releases/tags/'+TAG,missing_ok=True)
     if release is None:
         release=next((item for item in api(base+'/releases?per_page=100') if item['tag_name']==TAG),None)
+    if release is None:
+        for state_path in [ROOT/'qa/publish-receipt.json',ROOT/'qa/release-before-voice-completion.json']:
+            if not state_path.exists():continue
+            state=json.loads(state_path.read_text('utf8'));identifier=state.get('release_id',state.get('id'))
+            if identifier:
+                release=api(base+'/releases/'+str(int(identifier)))
+                break
     if release is None:raise RuntimeError('The prepared draft release was not found')
     release_id=release['id']
     assets=[(ROOT/'dist/GuildMaster-Windows-4.1.0.zip','GuildMaster-Windows-4.1.0.zip','application/zip'),(ROOT/'dist/guild-server-4.1.0.zip','guild-server-4.1.0.zip','application/zip'),(ROOT/'docs/更新日志_4.1.png','update-log-4.1.png','image/png'),(ROOT/'docs/DLC玩法总览.png','dlc-guide-4.1.png','image/png')]
@@ -60,7 +67,7 @@ def main():
     def matches(item,path):return item.get('digest')=='sha256:'+sha(path) and item['size']==path.stat().st_size
 
     if not args.publish:
-        api(base+'/releases/'+str(release_id),dict(draft=True,name='异世界公会长 v4.1.0 · 全角色中日双语配音',body=(ROOT/'docs/RELEASE_4_1.md').read_text('utf8')))
+        api(base+'/releases/'+str(release_id),dict(tag_name=TAG,target_commitish=commit,draft=True,name='异世界公会长 v4.1.0 · 全角色中日双语配音',body=(ROOT/'docs/RELEASE_4_1.md').read_text('utf8')))
         staged=[]
         for path,name,mime in assets:
             current={item['name']:item for item in api(base+'/releases/'+str(release_id)+'/assets')}
@@ -102,10 +109,10 @@ def main():
         current={item['name']:item for item in api(base+'/releases/'+str(release_id)+'/assets')}
         for path,name,mime in assets:
             if name not in current or not matches(current[name],path):raise RuntimeError('Release assets are not ready: '+name)
-        api(base+'/releases/'+str(release_id),dict(draft=False,prerelease=False,name='异世界公会长 v4.1.0 · 全角色中日双语配音',body=(ROOT/'docs/RELEASE_4_1.md').read_text('utf8'),make_latest='true'))
+        api(base+'/releases/'+str(release_id),dict(tag_name=TAG,target_commitish=commit,draft=False,prerelease=False,name='异世界公会长 v4.1.0 · 全角色中日双语配音',body=(ROOT/'docs/RELEASE_4_1.md').read_text('utf8'),make_latest='true'))
     release=api(base+'/releases/'+str(release_id))
     remote={item['name']:item for item in api(base+'/releases/'+str(release_id)+'/assets')}
-    receipt=dict(repository='https://github.com/'+REPO,commit=commit,draft=release['draft'],release_url='https://github.com/'+REPO+'/releases/tag/'+TAG,voice_manifest_sha256=manifest_sha,assets=[dict(name=name,url=remote[name]['browser_download_url'],size=remote[name]['size'],sha256=sha(path)) for path,name,mime in assets])
+    receipt=dict(repository='https://github.com/'+REPO,release_id=release_id,commit=commit,draft=release['draft'],release_url=release['html_url'],voice_manifest_sha256=manifest_sha,assets=[dict(name=name,url=remote[name]['browser_download_url'],size=remote[name]['size'],sha256=sha(path)) for path,name,mime in assets])
     (ROOT/'qa/publish-receipt.json').write_text(json.dumps(receipt,ensure_ascii=False,indent=2),'utf8')
     print(json.dumps(receipt,ensure_ascii=False,indent=2),flush=True)
 
