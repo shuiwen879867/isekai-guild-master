@@ -33,12 +33,13 @@ def main():
     headers={'Authorization':'Bearer '+values['password'],'Accept':'application/vnd.github+json','User-Agent':'GuildMasterRelease/4.1','X-GitHub-Api-Version':'2022-11-28'}
     base='/repos/'+REPO
 
-    def api(path,body=None,method=None):
+    def api(path,body=None,method=None,missing_ok=False):
         request=urllib.request.Request('https://api.github.com'+path,data=json.dumps(body,ensure_ascii=False).encode() if body is not None else None,headers=dict(headers,**({'Content-Type':'application/json'} if body is not None else {})),method=method or ('PATCH' if body is not None else 'GET'))
         try:
             with urllib.request.urlopen(request,timeout=45) as response:
                 content=response.read();return json.loads(content) if content else None
         except urllib.error.HTTPError as error:
+            if missing_ok and error.code==404:return None
             try:message=json.loads(error.read()).get('message','request rejected')
             except ValueError:message='request rejected'
             raise RuntimeError('GitHub HTTP '+str(error.code)+': '+message) from None
@@ -46,7 +47,11 @@ def main():
     commit=subprocess.run(['git','rev-parse','HEAD'],capture_output=True,text=True,check=True,cwd=ROOT).stdout.strip()
     if api(base+'/commits/main')['sha']!=commit or api(base+'/commits/'+TAG)['sha']!=commit:
         raise RuntimeError('Remote main and release tag must match the verified commit')
-    release=api(base+'/releases/tags/'+TAG);release_id=release['id']
+    release=api(base+'/releases/tags/'+TAG,missing_ok=True)
+    if release is None:
+        release=next((item for item in api(base+'/releases?per_page=100') if item['tag_name']==TAG),None)
+    if release is None:raise RuntimeError('The prepared draft release was not found')
+    release_id=release['id']
     assets=[(ROOT/'dist/GuildMaster-Windows-4.1.0.zip','GuildMaster-Windows-4.1.0.zip','application/zip'),(ROOT/'dist/guild-server-4.1.0.zip','guild-server-4.1.0.zip','application/zip'),(ROOT/'docs/更新日志_4.1.png','update-log-4.1.png','image/png'),(ROOT/'docs/DLC玩法总览.png','dlc-guide-4.1.png','image/png')]
     checksum=ROOT/'qa/SHA256SUMS.txt'
     checksum.write_text(''.join(sha(path)+'  '+name+'\n' for path,name,mime in assets),'ascii')
