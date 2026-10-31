@@ -6,7 +6,7 @@ const INK = Color("343133")
 const MUTED = Color("6b6460")
 var store = GuildArtStore.new()
 var session = GuildSession.new()
-var prefs = {"name": "公会长", "address": "guanpeng666.cn", "port": 6677, "sounds": true, "sound_volume": 0.65, "voices": true, "voice_volume": 0.85, "layout": "classic", "motion": true, "hints": true, "frame_limit": 240, "vsync": false, "language": "zh_CN"}
+var prefs = {"name": "公会长", "address": "guanpeng666.cn", "port": 6677, "sounds": true, "sound_volume": 0.65, "voices": true, "voice_volume": 0.85, "voice_language": "ja", "layout": "classic", "motion": true, "hints": true, "frame_limit": 240, "vsync": false, "language": "zh_CN"}
 var voice: GuildVoice
 var content: Control
 var modal_layer: Control
@@ -495,7 +495,7 @@ func _render_room(root: VBoxContainer):
 				var hero_key = identity.get("variants", {}).get(variant, "")
 				var hero = store.catalog.heroes.get(hero_key, {})
 				if hero.is_empty() or not hero.get("available", false): continue
-				column.add_child(card(hero.source[0], Vector2(230, 165), func(): dialogs.art_detail(hero.source[0], hero.name)))
+				column.add_child(card(hero.source[0], Vector2(230, 165), func(): voice.play_event(hero_key, "intro");dialogs.art_detail(hero.source[0], hero.name)))
 				column.add_child(button("选择" + ("白版" if variant == "white" else "黑版"), func(): session.send({"type": "set_hero", "character": character, "variant": variant}), true, true))
 		return
 	var seats = HBoxContainer.new();root.add_child(seats)

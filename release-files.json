@@ -4,13 +4,13 @@
   "artifacts": [
     {
       "name": "GuildMaster-Windows-4.1.0.zip",
-      "size_bytes": 233960829,
-      "sha256": "c302125177fcbbd0cdd09fde669486ad13c99171e7a7f7abd39b9191dfdfd0de"
+      "size_bytes": 274081716,
+      "sha256": "6f6b3e4b93f51e518b84469809fa50260fe5e322f915ebd176daf64d567a0162"
     },
     {
       "name": "guild-server-4.1.0.zip",
-      "size_bytes": 68251055,
-      "sha256": "67bdcb9356c63f8e7c7a25a3b1d7b03cc0b2bb566160240203e304af425c5544"
+      "size_bytes": 68494783,
+      "sha256": "1e18c0d648a67efa6376e365e9a841de98e0aaaeb8893cc57cb24e09974076f0"
     }
   ]
 }

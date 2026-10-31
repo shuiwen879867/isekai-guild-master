@@ -22,6 +22,7 @@ def status():
 
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--archive',type=Path,required=True);parser.add_argument('--sha256',required=True)
+    parser.add_argument('--client-validation',type=Path,required=True)
     parser.add_argument('--production',type=Path,default=Path('/srv/guanpeng/received_files/guild-server'))
     args=parser.parse_args();production=args.production.resolve();archive=args.archive.resolve();stage=archive.parent
     if str(production)!='/srv/guanpeng/received_files/guild-server':raise RuntimeError('Unexpected production directory')
@@ -35,6 +36,13 @@ def main():
             if not entry.filename.startswith('guild-server/'):raise RuntimeError('Unexpected archive member')
         package.extractall(incoming)
     source=incoming/'guild-server'
+    info=json.loads((source/'BUILD_INFO.json').read_text('utf8'))
+    voices=info.get('voice_validation',{})
+    if not voices.get('passed') or voices.get('hero_versions')!=57 or voices.get('characters')!=25 or voices.get('clips')!=1134 or voices.get('default_voice_language')!='ja' or voices.get('languages')!={'ja':567,'zh_CN':567}:
+        raise RuntimeError('Full character voice validation is required before deployment')
+    client_check=json.loads(args.client_validation.read_text('utf8'))
+    if not client_check.get('passed') or not client_check.get('package_passed') or client_check.get('clips')!=1134 or client_check.get('manifest_sha256')!=voices.get('manifest_sha256') or set(client_check.get('languages',[]))!={'ja','zh_CN'}:
+        raise RuntimeError('The matching exported bilingual client must pass before deployment')
     command(sys.executable,'-m','compileall','-q',str(source))
     check=status()
     if check.get('active_room_count') or check.get('connected_people'):raise RuntimeError('Server is in use; deployment deferred')
@@ -84,6 +92,7 @@ def main():
             if digest(path)!=digest(production/path.name):raise RuntimeError('Production rule hash mismatch')
         receipt=dict(status='deployed',version='4.1.0',revision='20261031-4.1.0-refactor-update',backup=str(backup),
                      changed_files=len(plan),config_preserved=True,replays_preserved=True,rules_match_package=True,
+                     archive_sha256=args.sha256,voice_validation=voices,
                      active=command('systemctl','is-active','guanpeng-guild.service'),main_pid=command('systemctl','show','guanpeng-guild.service','-p','MainPID','--value'),probe=result)
         (stage/'receipt.json').write_text(json.dumps(receipt,ensure_ascii=False,indent=2),'utf8');print(json.dumps(receipt,ensure_ascii=False))
     except BaseException:

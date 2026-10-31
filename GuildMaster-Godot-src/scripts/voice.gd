@@ -3,6 +3,10 @@ extends Node
 
 # Supplied by the user: kanban-010 is Shion / 紫苑, not character index 10.
 const PREFIX = "res://audio/voice/kanban-010/kanban-010__"
+const MANIFEST = "res://data/voice_manifest.json"
+var catalog = {}
+var last_language = ""
+var last_clip = ""
 var ui
 var player: AudioStreamPlayer
 var last_hero = ""
@@ -16,6 +20,8 @@ var queued = []
 
 func setup(owner_ui):
 	ui = owner_ui
+	var parsed = JSON.parse_string(FileAccess.get_file_as_string(MANIFEST))
+	if parsed is Dictionary: catalog = parsed
 	if AudioServer.get_bus_index("Voice") < 0:
 		AudioServer.add_bus();AudioServer.set_bus_name(AudioServer.bus_count - 1, "Voice")
 	player = AudioStreamPlayer.new();player.bus = "Voice";add_child(player);apply_settings()
@@ -24,28 +30,41 @@ func setup(owner_ui):
 			var next = queued.pop_front();play_event(next[0], next[1], next[2]))
 
 func apply_settings():
+	var language = str(ui.prefs.get("voice_language", "ja"))
+	if language != last_language:
+		stop();last_language = language
 	var bus = AudioServer.get_bus_index("Voice")
 	AudioServer.set_bus_mute(bus, not bool(ui.prefs.get("voices", true)))
 	AudioServer.set_bus_volume_db(bus, linear_to_db(maxf(0.0001, float(ui.prefs.get("voice_volume", 0.85)))))
 	if not ui.prefs.get("voices", true): stop()
 
+func clips_for_event(hero: String, event: String, rank: int = 1, language: String = "") -> Array:
+	var key = "rank_%s" % clampi(rank, 1, 3) if event == "rank" else event
+	var locale = str(ui.prefs.get("voice_language", "ja")) if language.is_empty() else language
+	if locale not in catalog.get("locales", []): locale = "ja"
+	return catalog.get("heroes", {}).get(hero, {}).get("events", {}).get(locale, {}).get(key, [])
+
 func play_event(hero: String, event: String, rank: int = 1):
-	if not hero.begins_with("shion_") or not ui.prefs.get("voices", true): return
-	var red = hero.ends_with("red") or hero.ends_with("black")
-	var variant = "red" if red else "white"
-	var clip = ""
-	match event:
-		"intro": clip = "select-intro-v%s" % randi_range(1, 2)
-		"select": clip = "select-%s-v%s" % [variant, randi_range(1, 2)]
-		"rank": clip = "card-%s-r%s" % [variant, clampi(rank, 1, 3)]
-		"close-first", "close-last", "close-shop", "settle-win", "settle-lose": clip = "%s-v%s" % [event, randi_range(1, 2)]
-	if clip.is_empty() or not ResourceLoader.exists(PREFIX + clip + ".ogg"): return
+	if not ui.prefs.get("voices", true): return
+	var clips = clips_for_event(hero, event, rank)
+	if clips.is_empty(): return
 	if event == "rank" and player.playing:
 		queued.append([hero, event, rank]);return
-	serial += 1;player.stream = load(PREFIX + clip + ".ogg");player.play()
+	var path = "res://" + str(clips.pick_random())
+	if not ResourceLoader.exists(path): return
+	if event != "rank": queued.clear()
+	last_clip = path.trim_prefix("res://")
+	serial += 1;player.stream = load(path);player.play()
+
+func play_selection(hero: String, level: int, started: bool):
+	stop();play_event(hero, "select")
+	var includes_first = catalog.get("clips", {}).get(last_clip, {}).get("includes_rank_one", false)
+	if started and (level != 1 or not includes_first): play_event(hero, "rank", level)
 
 func sync():
 	var session = ui.session
+	if session.role == "spectator":
+		stop();last_hero = "";last_scope = "";return
 	var hero = ""
 	var level = 1
 	var passed = false
@@ -63,13 +82,19 @@ func sync():
 	if hero.is_empty():
 		last_hero = "";last_level = 0;last_phase = "";last_scope = scope;last_passed = false;last_action = -1;stop();return
 	if scope != last_scope:
-		last_hero = hero;last_level = level;last_passed = passed;last_phase = phase;last_action = int(session.game.get("action_count", -1))
-	elif hero != last_hero:
-		play_event(hero, "select")
-		if not phase.is_empty(): play_event(hero, "rank", level)
+		stop()
+		if phase != "finished":
+			play_selection(hero, level, not phase.is_empty())
 	elif phase == "finished" and last_phase != "finished":
 		var won = session.game.get("solo_result", "") == "win" if session.game.get("options", {}).get("solo", false) else session.game.get("winners", []).has(session.player_id)
 		play_event(hero, "settle-win" if won else "settle-lose")
+	elif hero != last_hero and level > last_level and catalog.get("heroes", {}).get(hero, {}).get("character", "") == catalog.get("heroes", {}).get(last_hero, {}).get("character", "missing"):
+		# Marta's level-three effect flips the print. Narrate the ability that
+		# caused the flip rather than pretending a new character was selected.
+		stop();play_event(last_hero, "rank", level)
+	elif hero != last_hero:
+		play_selection(hero, level, not phase.is_empty())
+	elif not phase.is_empty() and last_phase.is_empty(): play_event(hero, "rank", level)
 	elif level > last_level: play_event(hero, "rank", level)
 	elif (passed and not last_passed) or (action_count != last_action and action.get("type") == "pass" and int(action.get("player", -1)) == session.player_id):
 		var count = session.game.players.filter(func(p): return p.get("passed", false)).size()
@@ -79,4 +104,5 @@ func sync():
 
 func stop():
 	queued.clear()
+	last_clip = ""
 	if is_instance_valid(player): player.stop();player.stream = null

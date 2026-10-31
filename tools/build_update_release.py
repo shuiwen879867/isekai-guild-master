@@ -15,6 +15,15 @@ ROOT=Path(__file__).resolve().parents[1]
 SRC=ROOT/'GuildMaster-Godot-src';PACK=ROOT/'GuildMaster-Godot';SERVER=ROOT/'guild-server'
 REVISION='20261031-4.1.0-refactor-update'
 
+
+def export_fingerprint():
+    digest=hashlib.sha256()
+    paths=[p for p in files(SRC) if p.suffix in ('.gd','.tscn') or p.parent==SRC/'data' or p.name in ('project.godot','export_presets.cfg')]
+    paths.append(ROOT/'docs/VOICE_VALIDATION.json')
+    for path in sorted(paths):
+        digest.update(path.relative_to(ROOT).as_posix().encode());digest.update(path.read_bytes())
+    return digest.hexdigest()
+
 def files(folder):
     for path in sorted(folder.rglob('*')):
         if not path.is_file() or '__pycache__' in path.parts or '.godot' in path.parts:continue
@@ -24,6 +33,8 @@ def files(folder):
 def manifest(folder):
     data=dict(version='4.1.0',revision=REVISION,upstream='cat90132-beep/isekai-guild-master@refactor',
               files={p.relative_to(folder).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in files(folder) if p.name!='BUILD_INFO.json' and not any(k in p.relative_to(folder).parts for k in ('tools','replays','downloads','replay-cache'))})
+    voice=json.loads((ROOT/'docs/VOICE_VALIDATION.json').read_text('utf8'))
+    data['voice_validation']={k:v for k,v in voice.items() if k!='files'}
     (folder/'BUILD_INFO.json').write_text(json.dumps(data,ensure_ascii=False,indent=2),'utf8')
 
 def package(folder,target):
@@ -36,6 +47,14 @@ def package(folder,target):
 
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--skip-export',action='store_true');parser.add_argument('--server-only',action='store_true');args=parser.parse_args()
+    from validate_voice_assets import validate
+    validate()
+    export_receipt=ROOT/'qa/export-voice-build.json'
+    if args.skip_export or args.server_only:
+        if not export_receipt.exists():raise SystemExit('Export a client with complete bilingual voices before reusing it.')
+        saved=json.loads(export_receipt.read_text('utf8'))
+        if saved['source_fingerprint']!=export_fingerprint() or saved['pck_sha256']!=hashlib.sha256((PACK/'GuildMaster.pck').read_bytes()).hexdigest():
+            raise SystemExit('The exported client is stale; run a full build with bilingual voice export.')
     subprocess.run([sys.executable,str(ROOT/'tools/prepare_update.py')],check=True)
     # Keep source-tree F5 testing identical to the exported local engine.
     for path in (PACK/'rules').glob('*.py'):shutil.copy2(path,SRC/'rules'/path.name)
@@ -56,8 +75,13 @@ def main():
         report=(ROOT/'qa/export.log').read_text('utf8')
         errors=[line for line in report.splitlines() if 'SCRIPT ERROR' in line or 'ERROR:' in line and 'root certificate' not in line]
         if result.returncode or errors:raise SystemExit('\n'.join(errors[-20:]) or report[-2000:])
+        export_receipt.write_text(json.dumps(dict(source_fingerprint=export_fingerprint(),pck_sha256=hashlib.sha256((PACK/'GuildMaster.pck').read_bytes()).hexdigest()),indent=2),'utf8')
     (PACK/'docs').mkdir(exist_ok=True)
     for name in ['DLC玩法总览.png','更新日志_4.1.png']:shutil.copy2(ROOT/'docs'/name,PACK/'docs'/name)
+    for folder in (PACK,SERVER):
+        (folder/'docs').mkdir(exist_ok=True)
+        for name in ['CHARACTER_VOICES.json','VOICE_VALIDATION.json','SUPPLIED_VOICE_OVERRIDES.json']:
+            shutil.copy2(ROOT/'docs'/name,folder/'docs'/name)
     shutil.copy2(ROOT/'README.md',PACK/'README.md')
     # Public replay thumbnails and website documentation use the new prints.
     sys.path.insert(0,str(SERVER))

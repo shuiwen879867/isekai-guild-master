@@ -4,3 +4,5 @@ Python 3.13.3: https://www.python.org/ (license included in runtime/LICENSE.txt)
 OpenCC 简繁对照数据 (STCharacters/STPhrases): Apache License 2.0，许可见 OpenCC-Apache-2.0.txt
 
 4.1 integration: upstream refactor by cat90132-beep. Supplied screenshots and Shion / 紫苑 voice pack kanban-010 provided by the project owner. Source voices use Opus; runtime derivatives use Vorbis. Original game artwork remains credited to its respective authors.
+
+Bilingual voice update: Shion / 紫苑 Japanese uses the 22 supplied recordings. Japanese cues prefer the 284 recordings supplied in ogg.rar across 13 groups. The missing Shiro red R1/R2 cues, all uncovered characters, and all Chinese audio retain their existing synthetic performances. Original recordings are credited to their respective providers; the supplied review script is used only to map slots. Audio is bundled for offline playback; no synthesis service or credentials are used at game runtime. Voice scripts and audio mappings are documented in docs/CHARACTER_VOICES.json.

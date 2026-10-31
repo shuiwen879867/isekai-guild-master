@@ -521,6 +521,9 @@
     "card_components/ff40ae4bcd5bb5ec-glyphs.webp": "2717a6316d2191883d1fceaf748e5180f93ba68d850654a7b7bb3233f1ea53e0",
     "card_components/ff40ae4bcd5bb5ec-paper.webp": "8558dd536648f889b6a679c0cf7b071fed3a188f956b7a8250f0925dd1b5f196",
     "CARD_FIXES_20260922.md": "fad64a6b2581734aa4b70fd0aad6ddd9fdb91f3afb2b323cc9886ee8a92ac0a0",
+    "docs/CHARACTER_VOICES.json": "2ef3c24d3014ef4565476da9e70a6bf0603042662b611a4feed8fc189c0706f1",
+    "docs/SUPPLIED_VOICE_OVERRIDES.json": "d4213e7280eac93ce96751a663629388fd2a9576fd037ca9578b57a6c8402685",
+    "docs/VOICE_VALIDATION.json": "d7bfddaff7375a6f3cbb3a0f1ceda028941fb83ba4cfbc864f9298400676adeb",
     "guild-server.service": "7c72084679ac4cfef1c2d3186befbfd6bbfabcd6e32cc5439a3038c0a76aa210",
     "guild_asset_manifest.json": "b25929ecf56a4060552f36cc19113b8a83c5bd27374076239b520c066cd7a2a7",
     "guild_card_corrections.py": "4fcb51588164c233f243d1b25c126b9db40f33704f26c83b8fde4f99c5a0757e",
@@ -795,8 +798,23 @@
     "site/shots/overview.jpg": "9baaa8bc8d8aad49c3946a5a20a28c0e4646806de301f1af106b55f7ea278d16",
     "site/shots/rules.jpg": "76e49afa26df53d1183a50c75529cb1a7dfd9f43cc5ab590e9047f493a673d4c",
     "site/shots/table.jpg": "84aa119ed4795b80f6acd843300d347b226a0542809d89fb963ff24a5c78db5d",
-    "site/shots/update-4.1.png": "a0bdc8d2e127f68c1b2047c46af5586ce935e6e36e2300426155153701cc810d",
+    "site/shots/update-4.1.png": "699ab6320153c1869a0924b80c3b0cb7a48dd2aaa5f5e67699bde877aeb9f281",
     "site/site.json": "9aa3da633bef5cf2bea1f4475d481887928474e916bfc07bc5e8c6c0e5b48020",
     "site/style.css": "62aa8be11dae6487b28f8aa756006f059d1eea83d2c429cc6fae2b7b555b8327"
+  },
+  "voice_validation": {
+    "passed": true,
+    "manifest_sha256": "df67b6393c3c515c5ff103a0f32c17c5513790b3077e301d62d416b7dec3ed60",
+    "characters": 25,
+    "hero_versions": 57,
+    "clips": 1134,
+    "languages": {
+      "ja": 567,
+      "zh_CN": 567
+    },
+    "default_voice_language": "ja",
+    "synthetic_clips": 838,
+    "supplied_clips": 296,
+    "total_seconds": 5255.82
   }
 }

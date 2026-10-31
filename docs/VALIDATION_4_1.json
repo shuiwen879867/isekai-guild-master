@@ -2,15 +2,13 @@
   "date": "2026-10-31",
   "version": "4.1.0",
   "upstream": "cat90132-beep/isekai-guild-master@22bb8be0deacab3488a267b6f49a5934bc95b886",
-  "rule_and_tcp_tests": 37,
-  "exported_client_checks": 124,
-  "source_ui_checks": 48,
+  "rule_and_tcp_tests": 41,
+  "exported_client_checks": 125,
+  "source_ui_checks": 49,
   "verified": [
     "printed-cost units 0/5 and discount independence",
     "official Elu solo substitution and starting assets",
     "all screenshot character faces",
-    "independent Shion voice playback and mute",
-    "all 22 exported audio streams decode",
     "2- and 5-player classic and dashboard layouts",
     "portable Python offline bridge",
     "guest rename and seat handoff",
@@ -18,20 +16,47 @@
     "solo card mode switching",
     "exploration payment and deep map",
     "client/server ZIP SHA-256 manifests",
-    "fresh standalone server contains all replay atlases and mode-specific raster fallbacks; eleven HTTP assets return 200"
+    "fresh standalone server contains all replay atlases and mode-specific raster fallbacks; eleven HTTP assets return 200",
+    "all 1134 Chinese/Japanese audio files decode and contain audible speech",
+    "all 57 playable prints have ten voice events in both languages",
+    "fresh install defaults to Japanese voice while the UI defaults to simplified Chinese",
+    "language/off settings persist across restart; switching cancels current and queued speech",
+    "Shion Japanese retains all 22 user-supplied recordings without modification",
+    "Marta upgrade flip narrates the original ability; finished games prioritize result speech",
+    "ogg.rar mapped using the 13-character review script; all unmatched audio hashes retained",
+    "Japanese supplied selection recordings that include R1 do not repeat the R1 line"
   ],
   "artifacts": [
     {
       "name": "GuildMaster-Windows-4.1.0.zip",
-      "size_bytes": 233960829,
-      "sha256": "c302125177fcbbd0cdd09fde669486ad13c99171e7a7f7abd39b9191dfdfd0de"
+      "size_bytes": 274081716,
+      "sha256": "6f6b3e4b93f51e518b84469809fa50260fe5e322f915ebd176daf64d567a0162"
     },
     {
       "name": "guild-server-4.1.0.zip",
-      "size_bytes": 68251055,
-      "sha256": "67bdcb9356c63f8e7c7a25a3b1d7b03cc0b2bb566160240203e304af425c5544"
+      "size_bytes": 68494783,
+      "sha256": "1e18c0d648a67efa6376e365e9a841de98e0aaaeb8893cc57cb24e09974076f0"
     }
   ],
   "standalone_replay_components": 516,
-  "standalone_http_checks": 11
+  "standalone_http_checks": 11,
+  "voice_source_checks": 3654,
+  "voice_export_checks": 3654,
+  "voice_settings_checks": 7,
+  "bilingual_voice_characters": 25,
+  "bilingual_hero_versions": 57,
+  "bilingual_voice_clips": 1134,
+  "voice_languages": {
+    "ja": 567,
+    "zh_CN": 567
+  },
+  "default_voice_language": "ja",
+  "voice_manifest_sha256": "df67b6393c3c515c5ff103a0f32c17c5513790b3077e301d62d416b7dec3ed60",
+  "supplied_recordings": 284,
+  "supplied_japanese_assets": 296,
+  "synthetic_assets_retained": 838,
+  "missing_supplied_clips_retained": [
+    "kanban-005__card-red-r1.ogg",
+    "kanban-005__card-red-r2.ogg"
+  ]
 }

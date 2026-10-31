@@ -565,11 +565,26 @@ func settings():
 			ui.close_dialog(false);ui.dialogs.settings(), true, active))
 	body.add_child(ui.label("音效音量", 23))
 	var volume = HSlider.new();volume.min_value = 0;volume.max_value = 1;volume.step = 0.01;volume.value = ui.prefs.sound_volume;body.add_child(volume);volume.value_changed.connect( func(value): ui.prefs.sound_volume = value;ui.save_preferences())
-	body.add_child(ui.label("人物配音 · 紫苑", 30, ui.GOLD))
+	body.add_child(ui.label("人物配音 · 全角色", 30, ui.GOLD))
+	var language_row = HBoxContainer.new();body.add_child(language_row)
+	language_row.add_child(ui.label("配音语言", 23))
+	for choice in [["日语", "ja"], ["中文", "zh_CN"]]:
+		language_row.add_child(ui.button(choice[0], func():
+			ui.prefs.voice_language = choice[1];ui.save_preferences();ui.close_dialog(false);ui.dialogs.settings(), true, str(ui.prefs.get("voice_language", "ja")) == choice[1]))
 	var voices = HBoxContainer.new();body.add_child(voices)
 	for pair in [["配音开启", true], ["配音关闭", false]]:
 		voices.add_child(ui.button(pair[0], func(): ui.prefs.voices = pair[1];ui.save_preferences();ui.close_dialog(false);ui.dialogs.settings(), true, bool(ui.prefs.voices) == pair[1]))
-	voices.add_child(ui.button("试听紫苑", func(): ui.voice.play_event("shion_white", "intro"), bool(ui.prefs.voices)))
+	var preview = OptionButton.new();preview.custom_minimum_size.x = 210;voices.add_child(preview)
+	var named = {}
+	for hero_key in ui.voice.catalog.get("heroes", {}):
+		var definition = ui.voice.catalog.heroes[hero_key]
+		if named.has(definition.name): continue
+		named[definition.name] = true
+		preview.add_item(GuildLang.t(definition.name));preview.set_item_metadata(preview.item_count - 1, hero_key)
+		if hero_key == "shion_white": preview.select(preview.item_count - 1)
+	voices.add_child(ui.button("试听人物", func():
+		if preview.selected >= 0: ui.voice.play_event(str(preview.get_item_metadata(preview.selected)), "intro"), bool(ui.prefs.voices)))
+	body.add_child(wrapped("中日双语，默认日语。日语优先使用已提供录音，缺少的片段与中文保留角色合成配音。", 18))
 	var voice_volume = HSlider.new();voice_volume.min_value = 0;voice_volume.max_value = 1;voice_volume.step = 0.01;voice_volume.value = ui.prefs.voice_volume;body.add_child(voice_volume)
 	voice_volume.value_changed.connect(func(value): ui.prefs.voice_volume = value;ui.save_preferences())
 

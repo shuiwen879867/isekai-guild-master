@@ -319,18 +319,21 @@
     "art/ui/red.png": "5e4769dde5b2a26f9210296ff448bab24e70e4bec3f1fe5fab1c221aa380743f",
     "art/ui/white.png": "9ed3756a3743af17508e82672a34a3037f25a0f2f70820b595520161ed21ce21",
     "art/ui/yellow.png": "f4036642608d00166fa8218de9245dc8882c2c3b0405c0fd74dec808850a3078",
+    "docs/CHARACTER_VOICES.json": "2ef3c24d3014ef4565476da9e70a6bf0603042662b611a4feed8fc189c0706f1",
     "docs/DLC玩法总览.png": "6aa9ca78db85c6a9578a4289a46f7f813bcdf52c38363b7b7ffee406eafcbbe4",
-    "docs/更新日志_4.1.png": "a0bdc8d2e127f68c1b2047c46af5586ce935e6e36e2300426155153701cc810d",
+    "docs/SUPPLIED_VOICE_OVERRIDES.json": "d4213e7280eac93ce96751a663629388fd2a9576fd037ca9578b57a6c8402685",
+    "docs/VOICE_VALIDATION.json": "d7bfddaff7375a6f3cbb3a0f1ceda028941fb83ba4cfbc864f9298400676adeb",
+    "docs/更新日志_4.1.png": "699ab6320153c1869a0924b80c3b0cb7a48dd2aaa5f5e67699bde877aeb9f281",
     "GuildMaster.exe": "d6f073d411209e12ce53a396f2489cc5b336647c6e606f3eb79befe9df753da1",
-    "GuildMaster.pck": "f6eb8f109ce2c912cb1d9c5052c96355997daeddb84e98789ea18164156fe1f4",
-    "LICENSES/CREDITS.txt": "680208706eb0ed07de4c41393935d798179d6bd111e74199a9e9f1135b4dc2c4",
+    "GuildMaster.pck": "7cbd51714a05ec65a91763ab3f9fd21c6c1561719a2192b17570e91dfc61f43b",
+    "LICENSES/CREDITS.txt": "56559fd32e6ff77e67b9284dcf8bb0a32f3338953bfd3c2846bcd51dae2f8d5f",
     "LICENSES/Godot-third-party.json": "a762770693e6d1ae81ff449ce2ad98b4bce2a8affeb91e17c0fb66901f7f0623",
     "LICENSES/Godot.txt": "0cc27400b8da8c06bb35350422c14715647cd2632c138921fd49caa6610a1ef6",
     "LICENSES/OpenCC-Apache-2.0.txt": "d4d265b6ef2cfd0fb645acee9d9092103d5fadbdae887eb87c58a5d9b0780e19",
     "LICENSES/UI.txt": "426a7ba755e1d6b3b0b40c4fc65eb2b2b816e409be24cfdead6bd9e6081e444a",
     "LICENSES/UoqMunThenKhung-OFL.txt": "0ce1a64802e6bc914550421ac1508c0f7b4c92961cdefca69cf747b9c926eda4",
     "LICENSES/ZCOOLKuaiLe-OFL.txt": "0df30c66002ff63ff435bd36139bf57642a027b966ae920d5a926d26ccb33a68",
-    "README.md": "c709fddf7c08d82771f507cb6cad2f48b452b639f296642682e2a97340e6e505",
+    "README.md": "1ab702db28c657ec66e5ef7408ce435ffeeed6c7dc76c58d87140f865c84add0",
     "rules/guild_asset_manifest.json": "b25929ecf56a4060552f36cc19113b8a83c5bd27374076239b520c066cd7a2a7",
     "rules/guild_card_corrections.py": "4fcb51588164c233f243d1b25c126b9db40f33704f26c83b8fde4f99c5a0757e",
     "rules/guild_card_layouts.json": "3b3dcece15dde18f89c7db110da23350a66f39b7759e23d7b17f8d11442e19ad",
@@ -397,5 +400,20 @@
     "runtime/vcruntime140.dll": "052ad6a20d375957e82aa6a3c441ea548d89be0981516ca7eb306e063d5027f4",
     "runtime/vcruntime140_1.dll": "6a99bc0128e0c7d6cbbf615fcc26909565e17d4ca3451b97f8987f9c6acbc6c8",
     "runtime/winsound.pyd": "9b9b43fd9717d3f3ca8eef335ff742db79833b331b8a494e7f8f4e9463a3c9b5"
+  },
+  "voice_validation": {
+    "passed": true,
+    "manifest_sha256": "df67b6393c3c515c5ff103a0f32c17c5513790b3077e301d62d416b7dec3ed60",
+    "characters": 25,
+    "hero_versions": 57,
+    "clips": 1134,
+    "languages": {
+      "ja": 567,
+      "zh_CN": 567
+    },
+    "default_voice_language": "ja",
+    "synthetic_clips": 838,
+    "supplied_clips": 296,
+    "total_seconds": 5255.82
   }
 }

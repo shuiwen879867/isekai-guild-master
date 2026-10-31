@@ -17,6 +17,7 @@ func run():
 		if arg.begins_with("--qa-output="): output = arg.trim_prefix("--qa-output=")
 	ui = load("res://main.tscn").instantiate();root.add_child(ui);await frames()
 	check(ui.prefs.language == "zh_CN", "clean install defaults to simplified Chinese")
+	check(ui.prefs.voice_language == "ja", "clean install defaults to Japanese voice")
 	check(GuildLang.t("異世界公會長") == "异世界公会长", "simplified UI converts traditional source strings")
 	check(ui.voice != null and AudioServer.get_bus_index("Voice") >= 0, "independent voice bus")
 	var count = 0
