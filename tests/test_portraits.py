@@ -19,11 +19,14 @@ class StandalonePortraits(unittest.TestCase):
                 self.assertTrue((ROOT / 'GuildMaster-Godot/art' / source.removeprefix('images/')).is_file())
                 self.assertEqual(source.startswith('images/portraits/'), key in record['legacy_crops'])
         self.assertEqual(len(record['legacy_crops']), 26)
-        self.assertEqual(sum(x.startswith('images/tts/') for x in record['sources'].values()), 31)
+        self.assertEqual(sum(x.startswith('images/tts/') for x in record['sources'].values()), 20)
+        self.assertEqual(sum(x.startswith('images/standalone/') for x in record['sources'].values()), 11)
 
-    def test_new_rule_prints_reuse_the_same_characters_standalone_art(self):
+    def test_new_rule_prints_use_their_generated_illustrations(self):
         sources = json.loads((ROOT / 'GuildMaster-Godot-src/data/portraits.json').read_text('utf8'))['sources']
         for hero in ('sif', 'frida', 'bell', 'horn', 'marta'):
             for side in ('white', 'black'):
-                self.assertEqual(sources[hero + '_revised_' + side], sources[hero + '_' + side])
-        self.assertEqual(sources['horn_five_white'], sources['horn_white'])
+                key=hero+'_revised_'+side
+                self.assertEqual(sources[key], 'images/standalone/'+key+'.png')
+            self.assertNotEqual(sources[hero+'_revised_white'],sources[hero+'_revised_black'])
+        self.assertEqual(sources['horn_five_white'], sources['horn_revised_white'])

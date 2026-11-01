@@ -47,19 +47,19 @@
     "bell_black": "images/tts/152.webp",
     "horn_black": "images/tts/150.webp",
     "marta_black": "images/tts/148.webp",
-    "sif_revised_white": "images/tts/155.webp",
-    "sif_revised_black": "images/tts/156.webp",
-    "frida_revised_white": "images/tts/153.webp",
-    "frida_revised_black": "images/tts/154.webp",
-    "bell_revised_white": "images/tts/151.webp",
-    "bell_revised_black": "images/tts/152.webp",
-    "marta_revised_white": "images/tts/147.webp",
-    "marta_revised_black": "images/tts/148.webp",
-    "horn_revised_white": "images/tts/149.webp",
-    "horn_five_white": "images/tts/149.webp",
-    "horn_revised_black": "images/tts/150.webp"
+    "sif_revised_white": "images/standalone/sif_revised_white.png",
+    "sif_revised_black": "images/standalone/sif_revised_black.png",
+    "frida_revised_white": "images/standalone/frida_revised_white.png",
+    "frida_revised_black": "images/standalone/frida_revised_black.png",
+    "bell_revised_white": "images/standalone/bell_revised_white.png",
+    "bell_revised_black": "images/standalone/bell_revised_black.png",
+    "marta_revised_white": "images/standalone/marta_revised_white.png",
+    "marta_revised_black": "images/standalone/marta_revised_black.png",
+    "horn_revised_white": "images/standalone/horn_revised_white.png",
+    "horn_five_white": "images/standalone/horn_revised_white.png",
+    "horn_revised_black": "images/standalone/horn_revised_black.png"
   },
-  "note": "20 clean standalone illustrations cover 31 prints. User approved retaining the original crops for the other 26 prints after generation remained unavailable.",
+  "note": "Ten generated independent illustrations cover the eleven prints that formerly fell back to cropped cards. Other characters keep their current illustrations.",
   "legacy_crops": [
     "bai_white",
     "bai_red",
@@ -87,5 +87,18 @@
     "melissa_white",
     "ruby_black",
     "peria_black"
+  ],
+  "generated_versions": [
+    "sif_revised_white",
+    "sif_revised_black",
+    "frida_revised_white",
+    "frida_revised_black",
+    "bell_revised_white",
+    "bell_revised_black",
+    "horn_revised_white",
+    "horn_revised_black",
+    "marta_revised_white",
+    "marta_revised_black",
+    "horn_five_white"
   ]
 }

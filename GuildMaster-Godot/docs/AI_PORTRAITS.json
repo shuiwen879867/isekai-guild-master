@@ -1,0 +1,68 @@
+{
+  "generator": "built-in image_gen.imagegen",
+  "generated_files": {
+    "sif_revised_white": {
+      "file": "GuildMaster-Godot/art/standalone/sif_revised_white.png",
+      "reference": "GuildMaster-Godot/art/supplied/sif_revised_white_1.webp",
+      "sha256": "03d4b2b0cd2d62d393abf02a4121b6c892cb28d67488f3f3eed5548169acb9b8",
+      "prompt": "Use case: identity-preserve. Asset: independent full-body character sprite for an anime fantasy game. The reference card is for character appearance only. Redraw the same character with silver hair in two long braids, large curled ram horns, brown gloves, simple cream tunic with green trim, green shorts and a small axe; preserve facial features, hair and eye colors, ears, outfit palette, signature accessories and general personality. Polished Japanese anime illustration, whole head, hair, hands, outfit and shoes visible, standing pose. Single fully clothed character, genuine transparent background, clean edges and margin. No card, frame, text, icons, labels, nameplate, paper, watermark or scenery."
+    },
+    "sif_revised_black": {
+      "file": "GuildMaster-Godot/art/standalone/sif_revised_black.png",
+      "reference": "GuildMaster-Godot/art/supplied/sif_revised_black_1.webp",
+      "sha256": "a2f6f67d3cde34c7fd0363dd6f75c8dcce703124115f467b9af13d724d61f836",
+      "prompt": "Use case: identity-preserve. Asset: independent full-body character sprite for an anime fantasy game. The reference card is for character appearance only. Redraw the same character with dark brown hair in two long braids, large curled ram horns, brown gloves, cream tunic with red trim, brown shorts and a small axe; preserve facial features, hair and eye colors, ears, outfit palette, signature accessories and general personality. Polished Japanese anime illustration, whole head, hair, hands, outfit and shoes visible, standing pose. Single fully clothed character, genuine transparent background, clean edges and margin. No card, frame, text, icons, labels, nameplate, paper, watermark or scenery."
+    },
+    "frida_revised_white": {
+      "file": "GuildMaster-Godot/art/standalone/frida_revised_white.png",
+      "reference": "GuildMaster-Godot/art/supplied/frida_revised_white_1.webp",
+      "sha256": "d530cec62dfca389401b7a085cb7e1503293c50307ade12cfa47c0b7b90db032",
+      "prompt": "Use case: identity-preserve. Asset: independent full-body character sprite for an anime fantasy game. The reference card is for character appearance only. Redraw the same character with long dark purple hair, red eyes, very large pointed bat ears, small dark bat wings, black and brown formal clothes with white ruffled collar; preserve facial features, hair and eye colors, ears, outfit palette, signature accessories and general personality. Polished Japanese anime illustration, whole head, hair, hands, outfit and shoes visible, standing pose. Single fully clothed character, genuine transparent background, clean edges and margin. No card, frame, text, icons, labels, nameplate, paper, watermark or scenery."
+    },
+    "frida_revised_black": {
+      "file": "GuildMaster-Godot/art/standalone/frida_revised_black.png",
+      "reference": "GuildMaster-Godot/art/supplied/frida_revised_black_1.webp",
+      "sha256": "0366f82ede265987cdcef64b255aa85126e09666af6ca01f909e23023e69e63b",
+      "prompt": "Use case: identity-preserve. Asset: independent full-body character sprite for an anime fantasy game. The reference card is for character appearance only. Redraw the same character with long silver-gray hair, red eyes, very large pointed bat ears, small dark bat wings, elegant dark red and black formal outfit with white ruffled collar; preserve facial features, hair and eye colors, ears, outfit palette, signature accessories and general personality. Polished Japanese anime illustration, whole head, hair, hands, outfit and shoes visible, standing pose. Single fully clothed character, genuine transparent background, clean edges and margin. No card, frame, text, icons, labels, nameplate, paper, watermark or scenery."
+    },
+    "bell_revised_white": {
+      "file": "GuildMaster-Godot/art/standalone/bell_revised_white.png",
+      "reference": "GuildMaster-Godot/art/supplied/bell_revised_white_1.webp",
+      "sha256": "8a67a9846ad43465705437aa642909b39cfb67395a98b3c13453f5b0f70eb836",
+      "prompt": "Use case: identity-preserve. Asset: independent full-body character sprite for an anime fantasy game. The reference card is for character appearance only. Redraw the same character with long silver-gray hair, golden eyes, large fluffy gray fox ears and tail, loose light-gray tunic and dark skirt; preserve facial features, hair and eye colors, ears, outfit palette, signature accessories and general personality. Polished Japanese anime illustration, whole head, hair, hands, outfit and shoes visible, standing pose. Single fully clothed character, genuine transparent background, clean edges and margin. No card, frame, text, icons, labels, nameplate, paper, watermark or scenery."
+    },
+    "bell_revised_black": {
+      "file": "GuildMaster-Godot/art/standalone/bell_revised_black.png",
+      "reference": "GuildMaster-Godot/art/supplied/bell_revised_black_1.webp",
+      "sha256": "96df5ec40e45a0c408e670b06a7affceff2d4b9e90ffc9299119e577fb1e03ef",
+      "prompt": "Use case: identity-preserve. Asset: independent full-body character sprite for an anime fantasy game. The reference card is for character appearance only. Redraw the same character with long pale cream hair, red eyes, large fluffy cream fox ears and tail, loose dark brown tunic with red trim and dark blue skirt; preserve facial features, hair and eye colors, ears, outfit palette, signature accessories and general personality. Polished Japanese anime illustration, whole head, hair, hands, outfit and shoes visible, standing pose. Single fully clothed character, genuine transparent background, clean edges and margin. No card, frame, text, icons, labels, nameplate, paper, watermark or scenery."
+    },
+    "horn_revised_white": {
+      "file": "GuildMaster-Godot/art/standalone/horn_revised_white.png",
+      "reference": "GuildMaster-Godot/art/supplied/horn_revised_white_1.webp",
+      "sha256": "488cbbca782f66c9144853168aa1db3ab6b640b48ce19d28fd2607835eb7d439",
+      "prompt": "Use case: identity-preserve. Asset: independent full-body character sprite for an anime fantasy game. The reference card is for character appearance only. Redraw the same character with orange hair in long twin tails, glasses, squirrel ears and a very large fluffy brown squirrel tail, orange cardigan and cream dress, carrying two small board-game boxes; preserve facial features, hair and eye colors, ears, outfit palette, signature accessories and general personality. Polished Japanese anime illustration, whole head, hair, hands, outfit and shoes visible, standing pose. Single fully clothed character, genuine transparent background, clean edges and margin. No card, frame, text, icons, labels, nameplate, paper, watermark or scenery."
+    },
+    "horn_revised_black": {
+      "file": "GuildMaster-Godot/art/standalone/horn_revised_black.png",
+      "reference": "GuildMaster-Godot/art/supplied/horn_revised_black_1.webp",
+      "sha256": "2fb0e58004b369395e52c6d9431d6b131cada530d570a4e1a1c3becf86232816",
+      "prompt": "Use case: identity-preserve. Asset: independent full-body character sprite for an anime fantasy game. The reference card is for character appearance only. Redraw the same character with olive-green hair in long twin tails, round glasses, squirrel ears and a very large fluffy brown squirrel tail, dark green cardigan and cream dress, carrying two small board-game boxes; preserve facial features, hair and eye colors, ears, outfit palette, signature accessories and general personality. Polished Japanese anime illustration, whole head, hair, hands, outfit and shoes visible, standing pose. Single fully clothed character, genuine transparent background, clean edges and margin. No card, frame, text, icons, labels, nameplate, paper, watermark or scenery."
+    },
+    "marta_revised_white": {
+      "file": "GuildMaster-Godot/art/standalone/marta_revised_white.png",
+      "reference": "GuildMaster-Godot/art/supplied/marta_revised_white_1.webp",
+      "sha256": "06bc08df2bb43516fa16c3fa7af6dd0b90492c1b00143c881af0a937f8746510",
+      "prompt": "Use case: identity-preserve. Asset: independent full-body character sprite for an anime fantasy game. The reference card is for character appearance only. Redraw the same character with short blonde bob, cat ears, round glasses, red eyes, brown hooded cloak and practical brown shorts; preserve facial features, hair and eye colors, ears, outfit palette, signature accessories and general personality. Polished Japanese anime illustration, whole head, hair, hands, outfit and shoes visible, standing pose. Single fully clothed character, genuine transparent background, clean edges and margin. No card, frame, text, icons, labels, nameplate, paper, watermark or scenery."
+    },
+    "marta_revised_black": {
+      "file": "GuildMaster-Godot/art/standalone/marta_revised_black.png",
+      "reference": "GuildMaster-Godot/art/supplied/marta_revised_black_1.webp",
+      "sha256": "ac522eb7ea8230bc03c020c20d6301a0913f8a024fbba5f48b43c6b40afde496",
+      "prompt": "Use case: identity-preserve. Asset: independent full-body character sprite for an anime fantasy game. The reference card is for character appearance only. Redraw the same character with short dark blue bob, cat ears, round glasses, gold eyes, gray hooded cloak over a navy outfit and practical dark shorts; preserve facial features, hair and eye colors, ears, outfit palette, signature accessories and general personality. Polished Japanese anime illustration, whole head, hair, hands, outfit and shoes visible, standing pose. Single fully clothed character, genuine transparent background, clean edges and margin. No card, frame, text, icons, labels, nameplate, paper, watermark or scenery."
+    }
+  },
+  "aliases": {
+    "horn_five_white": "horn_revised_white"
+  }
+}

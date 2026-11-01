@@ -1,6 +1,7 @@
 {
   "version": "4.1.1",
-  "pck_sha256": "f15a085703fbb7e4ce12dcb4fe26b0f9d920e2d709e2fc2c3c952fc20341be06",
+  "revision": "20261101-4.1.1-ai-portrait-fix",
+  "pck_sha256": "eecc5c01523fb34ddf812aca5b1b0fbd9b7e4924ab7ebde5e1c7014dc407edf8",
   "package_checks": 184,
   "voice_checks": 3654,
   "voice_clips": 1134,
@@ -8,9 +9,10 @@
   "python_tests": 48,
   "settings_checks": 12,
   "portraits": {
-    "total": 57,
-    "standalone_prints": 31,
-    "approved_legacy_crop_prints": 26
+    "generated_files": 10,
+    "generated_prints": 11,
+    "other_standalone_prints": 20,
+    "legacy_prints": 26
   },
   "public_connections": {
     "normal": {
@@ -18,8 +20,8 @@
       "host": "guanpeng666.cn",
       "passed": true,
       "port": 6677,
-      "transport": "tcp",
-      "pck_sha256": "f15a085703fbb7e4ce12dcb4fe26b0f9d920e2d709e2fc2c3c952fc20341be06"
+      "transport": "websocket",
+      "pck_sha256": "eecc5c01523fb34ddf812aca5b1b0fbd9b7e4924ab7ebde5e1c7014dc407edf8"
     },
     "automatic_fallback": {
       "failures": [],
@@ -27,7 +29,7 @@
       "passed": true,
       "port": 6677,
       "transport": "websocket",
-      "pck_sha256": "f15a085703fbb7e4ce12dcb4fe26b0f9d920e2d709e2fc2c3c952fc20341be06"
+      "pck_sha256": "eecc5c01523fb34ddf812aca5b1b0fbd9b7e4924ab7ebde5e1c7014dc407edf8"
     }
   },
   "passed": true

@@ -79,7 +79,7 @@ func run(client):
 	for key in ui.store.catalog.heroes:
 		var source = ui.store.portrait_source(key)
 		check(ui.store.portrait(key) != null and ui.store.portrait_bust(key) != null, "portrait and bust load for every print: " + key)
-		if source.begins_with("images/tts/"): portrait_count += 1
+		if source.begins_with("images/tts/") or source.begins_with("images/standalone/"): portrait_count += 1
 	check(portrait_count == 31, "31 prints use verified standalone artwork")
 	var voice_result = load("res://scripts/voice_check.gd").new().run(ui)
 	check(voice_result.passed, "all character voices decode and trigger in the exported client")

@@ -29,6 +29,16 @@ def main():
     path.write_text(json.dumps(catalog,ensure_ascii=False,separators=(',',':')),'utf8')
     for folder in ('art','runtime','rules'):
         if not (SRC/folder).exists():shutil.copytree(PACK/folder,SRC/folder)
+    # The art directory may already exist from an earlier build. Synchronize
+    # the independently generated portraits needed by source-tree runs.
+    portraits=json.loads((SRC/'data/portraits.json').read_text('utf8'))['sources']
+    for source in set(portraits.values()):
+        if not source.startswith('images/standalone/'):continue
+        relative=Path(source.removeprefix('images/'))
+        original=(PACK/'art'/relative).resolve();original.relative_to((PACK/'art').resolve())
+        destination=(SRC/'art'/relative).resolve();destination.relative_to((SRC/'art').resolve())
+        if not original.is_file():raise RuntimeError('Missing standalone portrait: '+source)
+        destination.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(original,destination)
     print('Prepared',len(HEROES),'hero prints in',len(CHARACTERS),'character groups.')
 
 if __name__=='__main__':main()

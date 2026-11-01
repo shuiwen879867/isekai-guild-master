@@ -84,13 +84,28 @@ def main():
         for path in ('/shots/update-4.1.png','/shots/dlc-guide-4.1.png','/assets/hero/bell_revised_black.png'):
             with urllib.request.urlopen('http://127.0.0.1:6680'+path,timeout=10) as response:
                 if response.status!=200 or not response.read(8):raise RuntimeError('Missing updated web asset')
-        probe="import guild_engine,guild_network,json; from guild_content import HEROES; c=guild_network.Client('127.0.0.1',6677,'ReleaseProbe',lobby=True).connect(); c.close(); print(json.dumps({'module':guild_engine.__file__,'version':guild_network.CLIENT_VERSION,'heroes':len(HEROES)}))"
+        probe="""import guild_engine,guild_network,json,time
+from guild_content import HEROES
+c=guild_network.Client('127.0.0.1',6677,'ReleaseProbe',lobby=True).connect()
+seen=set()
+try:
+ deadline=time.monotonic()+8
+ while time.monotonic()<deadline:
+  for message in c.poll():
+   if message.get('type') in ('error','disconnected'):raise RuntimeError('Application handshake failed')
+   seen.add(message.get('type'))
+  if {'server_welcome','directory'}<=seen:break
+  time.sleep(.01)
+ assert {'server_welcome','directory'}<=seen, 'Missing application welcome or directory'
+finally:c.close()
+print(json.dumps({'module':guild_engine.__file__,'version':guild_network.CLIENT_VERSION,'heroes':len(HEROES),'handshake_complete':True,'directory_received':True}))
+"""
         result=json.loads(subprocess.run([sys.executable,'-c',probe],cwd=production,capture_output=True,text=True,check=True,timeout=20).stdout)
         if result['version']!='4.1.0' or Path(result['module']).parent!=production:raise RuntimeError('Production module identity mismatch')
         if config_hash and digest(config)!=config_hash:raise RuntimeError('Server configuration changed')
         for path in source.glob('*.py'):
             if digest(path)!=digest(production/path.name):raise RuntimeError('Production rule hash mismatch')
-        receipt=dict(status='deployed',version='4.1.0',revision='20261031-4.1.0-refactor-update',backup=str(backup),
+        receipt=dict(status='deployed',version=info['version'],revision=info['revision'],backup=str(backup),
                      changed_files=len(plan),config_preserved=True,replays_preserved=True,rules_match_package=True,
                      archive_sha256=args.sha256,voice_validation=voices,
                      active=command('systemctl','is-active','guanpeng-guild.service'),main_pid=command('systemctl','show','guanpeng-guild.service','-p','MainPID','--value'),probe=result)

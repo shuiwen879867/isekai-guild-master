@@ -1,16 +1,16 @@
 {
   "version": "4.1.1",
-  "revision": "20261101-4.1.1-connection-mute-portraits",
+  "revision": "20261101-4.1.1-ai-portrait-fix",
   "artifacts": [
     {
       "name": "GuildMaster-Windows-4.1.1.zip",
-      "size_bytes": 274239646,
-      "sha256": "a106a38713a8773eaf6c985e74b8d35f6137453dbd5e2de8528180d093713480"
+      "size_bytes": 292786405,
+      "sha256": "99a0aaf271e6ba8e74924b7302033c7b00cd906500796ec77f877a22d94ffd5f"
     },
     {
       "name": "guild-server-4.1.1.zip",
-      "size_bytes": 70429929,
-      "sha256": "96b29724065d65697870a6d6459d8a044a9953b348cd0185722bc482a990a8cb"
+      "size_bytes": 69739968,
+      "sha256": "1043279fe50064c17b096685b95004a9c149e07ad658739f9f0afa73259f1b86"
     }
   ]
 }

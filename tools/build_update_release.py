@@ -80,7 +80,7 @@ def main():
     for name in ['DLC玩法总览.png','更新日志_4.1.png']:shutil.copy2(ROOT/'docs'/name,PACK/'docs'/name)
     for folder in (PACK,SERVER):
         (folder/'docs').mkdir(exist_ok=True)
-        for name in ['CHARACTER_VOICES.json','VOICE_VALIDATION.json','SUPPLIED_VOICE_OVERRIDES.json','PORTRAIT_STATUS.json']:
+        for name in ['CHARACTER_VOICES.json','VOICE_VALIDATION.json','SUPPLIED_VOICE_OVERRIDES.json','PORTRAIT_STATUS.json','AI_PORTRAITS.json']:
             shutil.copy2(ROOT/'docs'/name,folder/'docs'/name)
     shutil.copy2(ROOT/'README.md',PACK/'README.md')
     # Public replay thumbnails and website documentation use the new prints.
@@ -133,7 +133,9 @@ def main():
         if not source:
             if output.is_file():output.unlink()
             continue
-        portrait=raster(source).convert('RGBA');portrait.thumbnail((210,320));portrait.save(output)
+        portrait_path=PACK/'art'/source
+        if not portrait_path.is_file():portrait_path=PACK/'art'/source.removeprefix('images/')
+        portrait=Image.open(portrait_path).convert('RGBA');portrait.thumbnail((210,320));portrait.save(output)
     for folder,width in [('cardfull',800),('cards',240)]:
         im=Image.open(PACK/'art/supplied/lazy_life.webp').convert('RGB');im.thumbnail((width,width));im.save(SERVER/'replay_web'/folder/'303.jpg',quality=90)
     shots=SERVER/'site/shots';shots.mkdir(exist_ok=True)
