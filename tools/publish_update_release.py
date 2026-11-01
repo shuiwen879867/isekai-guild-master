@@ -58,6 +58,18 @@ def main():
     if release is None:
         release=next((item for item in api(base+'/releases?per_page=100') if item['tag_name']==TAG),None)
     if release is None:
+        # GitHub may temporarily label our draft as untagged when its tag is
+        # updated. Recover only the draft recorded by this verified build.
+        state_path=ROOT/'qa/publish-receipt.json'
+        if state_path.is_file():
+            state=json.loads(state_path.read_text('utf8'))
+            previous=state.get('commit','')
+            ancestor=subprocess.run(['git','merge-base','--is-ancestor',previous,commit],cwd=ROOT).returncode==0 if previous else False
+            if state.get('draft') and state.get('voice_manifest_sha256')==manifest_sha and ancestor and state.get('release_id'):
+                candidate=api(base+'/releases/'+str(int(state['release_id'])),missing_ok=True)
+                if candidate and candidate.get('draft') and (candidate.get('tag_name')==TAG or str(candidate.get('tag_name','')).startswith('untagged-')):
+                    release=candidate
+    if release is None:
         if args.publish:raise RuntimeError('Stage this release before publishing')
         release=api(base+'/releases',dict(tag_name=TAG,target_commitish=commit,draft=True,name='异世界公会长 v'+VERSION),method='POST')
     release_id=release['id']
